@@ -3,10 +3,25 @@ CREATE TABLE "payment"(
                           "id_booking" BIGINT NOT NULL,
                           "amount" DECIMAL(8, 2) NOT NULL,
                           "payment_date" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
-                          "payment_status" VARCHAR(255) NOT NULL
+                          "id_payment_status" BIGINT NOT NULL,
+                          "id_payment_method" BIGINT NOT NULL
 );
 ALTER TABLE
     "payment" ADD PRIMARY KEY("id_payment");
+CREATE TABLE "payment_method"(
+                          "id_payment_method" bigserial NOT NULL,
+                          "name" VARCHAR(255) NOT NULL,
+                          "description" VARCHAR(255) NOT NULL
+);
+ALTER TABLE
+    "payment_method" ADD PRIMARY KEY("id_payment_method");
+CREATE TABLE "payment_status"(
+                                 "id_payment_status" bigserial NOT NULL,
+                                 "name" VARCHAR(255) NOT NULL,
+                                 "description" VARCHAR(255) NOT NULL
+);
+ALTER TABLE
+    "payment_status" ADD PRIMARY KEY("id_payment_status");
 CREATE TABLE "pilot"(
                         "id_pilot" bigserial NOT NULL,
                         "first_name" VARCHAR(255) NOT NULL,
@@ -17,22 +32,35 @@ CREATE TABLE "pilot"(
                         "rank" VARCHAR(255) NOT NULL,
                         "hours_flown" FLOAT(53) NOT NULL,
                         "employee_date" DATE NOT NULL,
-                        "status" VARCHAR(255) NOT NULL,
-                        "home_base" VARCHAR(255),
+                        "id_pilot_status" BIGINT NOT NULL,
+                        "home_base" VARCHAR(255) NOT NULL,
                         "last_medical_check" DATE NOT NULL
 );
 ALTER TABLE
     "pilot" ADD PRIMARY KEY("id_pilot");
+CREATE TABLE "pilot_status"(
+                                 "id_pilot_status" bigserial NOT NULL,
+                                 "name" VARCHAR(255) NOT NULL,
+                                 "description" VARCHAR(255) NOT NULL
+);
+ALTER TABLE
+    "pilot_status" ADD PRIMARY KEY("id_pilot_status");
 CREATE TABLE "seat"(
                        "id_seat" bigserial NOT NULL,
                        "id_flight" BIGINT NOT NULL,
                        "seat_number" VARCHAR(255) NOT NULL,
                        "is_reserved" BOOLEAN NOT NULL,
                        "price" DECIMAL(8, 2) NOT NULL,
-                       "seat_class" VARCHAR(255) NOT NULL
+                       "id_seat_class" BIGINT NOT NULL
 );
 ALTER TABLE
     "seat" ADD PRIMARY KEY("id_seat");
+CREATE TABLE "seat_class"(
+                             "id_seat_class" bigserial NOT NULL,
+                             "name" VARCHAR(255) NOT NULL
+);
+ALTER TABLE
+    "seat_class" ADD PRIMARY KEY("id_seat_class");
 CREATE TABLE "city"(
                        "id_city" bigserial NOT NULL,
                        "name" VARCHAR(255) NOT NULL,
@@ -46,11 +74,11 @@ ALTER TABLE
 CREATE TABLE "luggage"(
                           "id_luggage" bigserial NOT NULL,
                           "id_passenger" BIGINT NOT NULL,
-                          "type" VARCHAR(255),
+                          "type" VARCHAR(255) NOT NULL,
                           "height_cm" DECIMAL(8, 2) NOT NULL,
                           "weight_kg" DECIMAL(8, 2) NOT NULL,
                           "width_cm" DECIMAL(8, 2) NOT NULL,
-                          "extra_free" DECIMAL(8, 2)
+                          "extra_free" DECIMAL(8, 2) NOT NULL
 );
 ALTER TABLE
     "luggage" ADD PRIMARY KEY("id_luggage");
@@ -58,7 +86,7 @@ CREATE TABLE "country"(
                           "id_country" bigserial NOT NULL,
                           "name" VARCHAR(255) NOT NULL,
                           "continent" VARCHAR(255) NOT NULL,
-                          "language" VARCHAR(255)
+                          "language" VARCHAR(255) NOT NULL
 );
 ALTER TABLE
     "country" ADD PRIMARY KEY("id_country");
@@ -76,24 +104,53 @@ CREATE TABLE "plane"(
 );
 ALTER TABLE
     "plane" ADD PRIMARY KEY("id_plane");
+CREATE TABLE "role"(
+                      "id_role" bigserial NOT NULL,
+                      "name" VARCHAR(255) NOT NULL,
+                      "description" VARCHAR(255) NOT NULL
+);
+ALTER TABLE
+    "role" ADD PRIMARY KEY("id_role");
+CREATE TABLE "permission"(
+                      "id_permission" bigserial NOT NULL,
+                      "name" VARCHAR(255) NOT NULL,
+                      "description" VARCHAR(255) NOT NULL
+);
+ALTER TABLE
+    "permission" ADD PRIMARY KEY("id_permission");
+CREATE TABLE "role_permission"(
+                                    "id_role_permission" bigserial NOT NULL,
+                                    "id_role" BIGINT NOT NULL,
+                                    "id_permission" BIGINT NOT NULL
+);
+ALTER TABLE
+    "role_permission" ADD PRIMARY KEY("id_role_permission");
 CREATE TABLE "users"(
                         "id_user" bigserial NOT NULL,
                         "first_name" VARCHAR(255) NOT NULL,
                         "last_name" VARCHAR(255) NOT NULL,
                         "phone_number" VARCHAR(255) NOT NULL,
                         "email" VARCHAR(255) NOT NULL,
-                        "nationality" VARCHAR(255),
-                        "date_of_birth" DATE,
+                        "nationality" VARCHAR(255) NOT NULL,
+                        "date_of_birth" DATE NOT NULL,
                         "document_id" VARCHAR(255) NOT NULL,
                         "passport_number" VARCHAR(255) NOT NULL,
                         "registration_date" DATE NOT NULL,
                         "flyer_number" BIGINT NOT NULL,
-                        "address" VARCHAR(255),
-                        "user_type" VARCHAR(255),
-                        "password_hash" VARCHAR(255) NOT NULL
+                        "address" VARCHAR(255) NOT NULL,
+                        "id_users_type" BIGINT NOT NULL,
+                        "password_hash" VARCHAR(255) NOT NULL,
+                        "id_document_type" BIGINT NOT NULL
 );
 ALTER TABLE
     "users" ADD PRIMARY KEY("id_user");
+CREATE TABLE "users_type"(
+                                "id_users_type" bigserial NOT NULL,
+                                "name" VARCHAR(255) NOT NULL,
+                                "description" VARCHAR(255) NOT NULL
+);
+ALTER TABLE
+    "users_type" ADD PRIMARY KEY("id_users_type");
 CREATE TABLE "flight"(
                          "id_flight" bigserial NOT NULL,
                          "flight_number" BIGINT NOT NULL,
@@ -102,38 +159,52 @@ CREATE TABLE "flight"(
                          "id_arrival_city" BIGINT NOT NULL,
                          "departure_time" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
                          "arrival_time" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
-                         "status" VARCHAR(255) NOT NULL,
+                         "id_flight_status" BIGINT NOT NULL,
                          "flight_duration" TIME(0) WITHOUT TIME ZONE NOT NULL,
                          "distance_km" FLOAT(53) NOT NULL,
                          "seats" INTEGER NOT NULL,
                          "id_captain" BIGINT NOT NULL,
-                         "id_sub_captain" BIGINT,
+                         "id_sub_captain" BIGINT NOT NULL,
                          "price_economy" DECIMAL(8, 2) NOT NULL,
                          "price_business" DECIMAL(8, 2) NOT NULL,
                          "price_first_class" DECIMAL(8, 2) NOT NULL
 );
 ALTER TABLE
     "flight" ADD PRIMARY KEY("id_flight");
+CREATE TABLE "flight_status"(
+                               "id_flight_status" bigserial NOT NULL,
+                               "name" VARCHAR(255) NOT NULL,
+                               "description" VARCHAR(255) NOT NULL
+);
+ALTER TABLE
+    "flight_status" ADD PRIMARY KEY("id_flight_status");
 CREATE TABLE "booking"(
-                                    "id_booking" bigserial NOT NULL,
-                                    "id_flight" BIGINT NOT NULL,
-                                    "id_user" BIGINT NOT NULL,
-                                    "booking_date" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
-                                    "booking_status" VARCHAR(255) NOT NULL
+                          "id_booking" bigserial NOT NULL,
+                          "id_flight" BIGINT NOT NULL,
+                          "id_user" BIGINT NOT NULL,
+                          "booking_date" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
+                          "id_booking_status" BIGINT NOT NULL
 );
 ALTER TABLE
     "booking" ADD PRIMARY KEY("id_booking");
+CREATE TABLE "booking_status"(
+                                "id_booking_status" bigserial NOT NULL,
+                                "name" VARCHAR(255) NOT NULL,
+                                "description" VARCHAR(255) NOT NULL
+);
+ALTER TABLE
+    "booking_status" ADD PRIMARY KEY("id_booking_status");
 CREATE TABLE "passenger"(
                             "id_passenger" bigserial NOT NULL,
                             "id_seat" BIGINT NOT NULL,
                             "first_name" VARCHAR(255) NOT NULL,
                             "last_name" VARCHAR(255) NOT NULL,
-                            "date_of_birth" DATE,
+                            "date_of_birth" DATE NOT NULL,
                             "document_id" VARCHAR(255) NOT NULL,
                             "passport_number" VARCHAR(255) NOT NULL,
-                            "nationality" VARCHAR(255),
-                            "special_requests" VARCHAR(255),
-                            "luggage_included" BOOLEAN NOT NULL
+                            "nationality" VARCHAR(255) NOT NULL,
+                            "luggage_included" BOOLEAN NOT NULL,
+                            "id_document_type" BIGINT NOT NULL
 );
 ALTER TABLE
     "passenger" ADD PRIMARY KEY("id_passenger");
@@ -144,6 +215,20 @@ CREATE TABLE "booking_passenger"(
 );
 ALTER TABLE
     "booking_passenger" ADD PRIMARY KEY("id_booking_passenger");
+CREATE TABLE "special_request"(
+                        "id_special_request" bigserial NOT NULL,
+                        "name" VARCHAR(255) NOT NULL,
+                        "description" VARCHAR(255) NOT NULL
+);
+ALTER TABLE
+    "special_request" ADD PRIMARY KEY("id_special_request");
+CREATE TABLE "passenger_special_request"(
+                                  "id_passenger_special_request" bigserial NOT NULL,
+                                  "id_passenger" VARCHAR(255) NOT NULL,
+                                  "id_special_request" VARCHAR(255) NOT NULL
+);
+ALTER TABLE
+    "passenger_special_request" ADD PRIMARY KEY("id_passenger_special_request");
 CREATE TABLE "scale"(
                         "id_scale" bigserial NOT NULL,
                         "id_flight" BIGINT NOT NULL,
@@ -154,6 +239,22 @@ CREATE TABLE "scale"(
 );
 ALTER TABLE
     "scale" ADD PRIMARY KEY("id_scale");
+CREATE TABLE "user_role"(
+                           "id_role" bigserial NOT NULL,
+                           "id_user_role" BIGINT NOT NULL,
+                           "id_user" BIGINT NOT NULL
+);
+ALTER TABLE
+    "user_role" ADD PRIMARY KEY("id_user_role");
+CREATE TABLE "document_type"(
+                            "id_document_type" bigserial NOT NULL,
+                            "name" BIGINT NOT NULL
+);
+ALTER TABLE
+    "document_type" ADD PRIMARY KEY("id_document_type");
+
+
+
 ALTER TABLE
     "booking_passenger" ADD CONSTRAINT "booking_passenger_id_booking_foreign" FOREIGN KEY("id_booking") REFERENCES "booking"("id_booking");
 ALTER TABLE
@@ -183,9 +284,41 @@ ALTER TABLE
 ALTER TABLE
     "luggage" ADD CONSTRAINT "luggage_id_passenger_foreign" FOREIGN KEY("id_passenger") REFERENCES "passenger"("id_passenger");
 ALTER TABLE
+    "user_role" ADD CONSTRAINT "user_role_id_user_foreign" FOREIGN KEY("id_user") REFERENCES "users"("id_user");
+ALTER TABLE
     "payment" ADD CONSTRAINT "payment_id_booking_foreign" FOREIGN KEY("id_booking") REFERENCES "booking"("id_booking");
 ALTER TABLE
+    "user_role" ADD CONSTRAINT "user_role_id_role_foreign" FOREIGN KEY("id_role") REFERENCES "role"("id_role");
+ALTER TABLE
     "flight" ADD CONSTRAINT "flight_id_captain_foreign" FOREIGN KEY("id_captain") REFERENCES "pilot"("id_pilot");
+ALTER TABLE
+    "role_permission" ADD CONSTRAINT "role_permission_id_role_foreign" FOREIGN KEY("id_role") REFERENCES "role"("id_role");
+ALTER TABLE
+    "role_permission" ADD CONSTRAINT "role_permission_id_permission_foreign" FOREIGN KEY("id_permission") REFERENCES "permission"("id_permission");
+ALTER TABLE
+    "payment" ADD CONSTRAINT "payment_id_payment_status_foreign" FOREIGN KEY("id_payment_status") REFERENCES "payment_status"("id_payment_status");
+ALTER TABLE
+    "payment" ADD CONSTRAINT "payment_id_payment_method_foreign" FOREIGN KEY("id_payment_method") REFERENCES "payment_method"("id_payment_method");
+ALTER TABLE
+    "users" ADD CONSTRAINT "users_id_document_type_foreign" FOREIGN KEY("id_document_type") REFERENCES "document_type"("id_document_type");
+ALTER TABLE
+    "passenger" ADD CONSTRAINT "passenger_id_document_type_foreign" FOREIGN KEY("id_document_type") REFERENCES "document_type"("id_document_type");
+ALTER TABLE
+    "pilot" ADD CONSTRAINT "pilot_id_pilot_status_foreign" FOREIGN KEY("id_pilot_status") REFERENCES "pilot_status"("id_pilot_status");
+ALTER TABLE
+    "flight" ADD CONSTRAINT "flight_id_flight_status_foreign" FOREIGN KEY("id_flight_status") REFERENCES "flight_status"("id_flight_status");
+ALTER TABLE
+    "booking" ADD CONSTRAINT "booking_id_booking_status_foreign" FOREIGN KEY("id_booking_status") REFERENCES "booking_status"("id_booking_status");
+ALTER TABLE
+    "users" ADD CONSTRAINT "users_id_users_type_foreign" FOREIGN KEY("id_users_type") REFERENCES "users_type"("id_users_type");
+ALTER TABLE
+    "seat" ADD CONSTRAINT "seat_id_seat_class_foreign" FOREIGN KEY("id_seat_class") REFERENCES "seat_class"("id_seat_class");
+ALTER TABLE
+    "passenger_special_request" ADD CONSTRAINT "passenger_special_request_id_passenger_foreign" FOREIGN KEY("id_passenger") REFERENCES "passenger"("id_passenger");
+ALTER TABLE
+    "passenger_special_request" ADD CONSTRAINT "passenger_special_request_id_special_request_foreign" FOREIGN KEY("id_special_request") REFERENCES "special_request"("id_special_request");
+
+
 
 
 
