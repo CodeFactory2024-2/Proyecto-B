@@ -64,7 +64,7 @@ ALTER TABLE
 CREATE TABLE "city"(
                        "id_city" bigserial NOT NULL,
                        "name" VARCHAR(255) NOT NULL,
-                       "country_id" BIGINT NOT NULL,
+                       "id_country" BIGINT NOT NULL,
                        "timezone" VARCHAR(255) NOT NULL,
                        "latitude" FLOAT(53) NOT NULL,
                        "longitude" FLOAT(53) NOT NULL
@@ -119,9 +119,9 @@ CREATE TABLE "permission"(
 ALTER TABLE
     "permission" ADD PRIMARY KEY("id_permission");
 CREATE TABLE "role_permission"(
-                                    "id_role_permission" bigserial NOT NULL,
-                                    "id_role" BIGINT NOT NULL,
-                                    "id_permission" BIGINT NOT NULL
+                    "id_role_permission" bigserial NOT NULL,
+                    "id_role" BIGINT NOT NULL,
+                    "id_permission" BIGINT NOT NULL
 );
 ALTER TABLE
     "role_permission" ADD PRIMARY KEY("id_role_permission");
@@ -145,9 +145,9 @@ CREATE TABLE "users"(
 ALTER TABLE
     "users" ADD PRIMARY KEY("id_user");
 CREATE TABLE "users_type"(
-                                "id_users_type" bigserial NOT NULL,
-                                "name" VARCHAR(255) NOT NULL,
-                                "description" VARCHAR(255) NOT NULL
+                        "id_users_type" bigserial NOT NULL,
+                        "name" VARCHAR(255) NOT NULL,
+                        "description" VARCHAR(255) NOT NULL
 );
 ALTER TABLE
     "users_type" ADD PRIMARY KEY("id_users_type");
@@ -172,9 +172,9 @@ CREATE TABLE "flight"(
 ALTER TABLE
     "flight" ADD PRIMARY KEY("id_flight");
 CREATE TABLE "flight_status"(
-                               "id_flight_status" bigserial NOT NULL,
-                               "name" VARCHAR(255) NOT NULL,
-                               "description" VARCHAR(255) NOT NULL
+                           "id_flight_status" bigserial NOT NULL,
+                           "name" VARCHAR(255) NOT NULL,
+                           "description" VARCHAR(255) NOT NULL
 );
 ALTER TABLE
     "flight_status" ADD PRIMARY KEY("id_flight_status");
@@ -209,9 +209,9 @@ CREATE TABLE "passenger"(
 ALTER TABLE
     "passenger" ADD PRIMARY KEY("id_passenger");
 CREATE TABLE "booking_passenger"(
-                                    "id_booking_passenger" bigserial NOT NULL,
-                                    "id_booking" BIGINT NOT NULL,
-                                    "id_passenger" BIGINT NOT NULL
+                            "id_booking_passenger" bigserial NOT NULL,
+                            "id_booking" BIGINT NOT NULL,
+                            "id_passenger" BIGINT NOT NULL
 );
 ALTER TABLE
     "booking_passenger" ADD PRIMARY KEY("id_booking_passenger");
@@ -223,9 +223,9 @@ CREATE TABLE "special_request"(
 ALTER TABLE
     "special_request" ADD PRIMARY KEY("id_special_request");
 CREATE TABLE "passenger_special_request"(
-                                  "id_passenger_special_request" bigserial NOT NULL,
-                                  "id_passenger" VARCHAR(255) NOT NULL,
-                                  "id_special_request" VARCHAR(255) NOT NULL
+                          "id_passenger_special_request" bigserial NOT NULL,
+                          "id_passenger" BIGINT NOT NULL,
+                          "id_special_request" BIGINT NOT NULL
 );
 ALTER TABLE
     "passenger_special_request" ADD PRIMARY KEY("id_passenger_special_request");
@@ -240,27 +240,25 @@ CREATE TABLE "scale"(
 ALTER TABLE
     "scale" ADD PRIMARY KEY("id_scale");
 CREATE TABLE "user_role"(
-                           "id_role" bigserial NOT NULL,
-                           "id_user_role" BIGINT NOT NULL,
+                            "id_user_role" bigserial NOT NULL,
+                           "id_role" BIGINT NOT NULL,
                            "id_user" BIGINT NOT NULL
 );
 ALTER TABLE
     "user_role" ADD PRIMARY KEY("id_user_role");
 CREATE TABLE "document_type"(
                             "id_document_type" bigserial NOT NULL,
-                            "name" BIGINT NOT NULL
+                            "name" VARCHAR(255) NOT NULL
 );
 ALTER TABLE
     "document_type" ADD PRIMARY KEY("id_document_type");
-
-
 
 ALTER TABLE
     "booking_passenger" ADD CONSTRAINT "booking_passenger_id_booking_foreign" FOREIGN KEY("id_booking") REFERENCES "booking"("id_booking");
 ALTER TABLE
     "scale" ADD CONSTRAINT "scale_id_flight_foreign" FOREIGN KEY("id_flight") REFERENCES "flight"("id_flight");
 ALTER TABLE
-    "city" ADD CONSTRAINT "city_country_id_foreign" FOREIGN KEY("country_id") REFERENCES "country"("id_country");
+    "city" ADD CONSTRAINT "city_id_country_foreign" FOREIGN KEY("id_country") REFERENCES "country"("id_country");
 ALTER TABLE
     "flight" ADD CONSTRAINT "flight_id_departure_city_foreign" FOREIGN KEY("id_departure_city") REFERENCES "city"("id_city");
 ALTER TABLE
@@ -318,88 +316,167 @@ ALTER TABLE
 ALTER TABLE
     "passenger_special_request" ADD CONSTRAINT "passenger_special_request_id_special_request_foreign" FOREIGN KEY("id_special_request") REFERENCES "special_request"("id_special_request");
 
+INSERT INTO country (name, continent, language) VALUES
+    ('Estados Unidos', 'América del Norte', 'Inglés'),
+    ('México', 'América del Norte', 'Español'),
+    ('Japón', 'Asia', 'Japonés'),
+    ('Francia', 'Europa', 'Francés'),
+    ('Brasil', 'América del Sur', 'Portugués'),
+    ('Italia', 'Europa', 'Italiano'),
+    ('Argentina', 'América del Sur', 'Español'),
+    ('India', 'Asia', 'Hindi'),
+    ('Alemania', 'Europa', 'Alemán'),
+    ('Canadá', 'América del Norte', 'Inglés y Francés');
 
+INSERT INTO city (name, id_country, timezone, latitude, longitude) VALUES
+   ('Nueva York', 1, 'UTC-5', 40.7128, -74.0060),
+   ('Ciudad de México', 2, 'UTC-6', 19.4326, -99.1332),
+   ('Tokio', 3, 'UTC+9', 35.6895, 139.6917),
+   ('París', 4, 'UTC+1', 48.8566, 2.3522),
+   ('Río de Janeiro', 5, 'UTC-3', -22.9068, -43.1729),
+   ('Roma', 6, 'UTC+1', 41.9028, 12.4964),
+   ('Buenos Aires', 7, 'UTC-3', -34.6037, -58.3816),
+   ('Nueva Delhi', 8, 'UTC+5:30', 28.6139, 77.2090),
+   ('Berlín', 9, 'UTC+1', 52.5200, 13.4050),
+   ('Toronto', 10, 'UTC-5', 43.6532, -79.3832);
 
+INSERT INTO document_type (name) VALUES
+     ('Passport'),
+     ('National ID'),
+     ('Driver License'),
+     ('Military ID'),
+     ('Residence Permit'),
+     ('Voter ID'),
+     ('Health Card'),
+     ('Student ID'),
+     ('Work Permit'),
+     ('Foreigner ID');
 
+INSERT INTO users_type (name, description) VALUES
+       ('Admin', 'Administrador del sistema'),
+       ('User', 'Usuario regular'),
+       ('VIP', 'Usuario VIP'),
+       ('Guest', 'Usuario invitado'),
+       ('Staff', 'Personal autorizado');
 
-INSERT INTO pilot (first_name, last_name, license_number, date_of_birth, nationality, rank, hours_flown, employee_date, status, home_base, last_medical_check)
-VALUES
-    ('John', 'Doe', 'LIC12345', '1980-05-15', 'USA', 'Captain', 10000, '2005-03-01', 'Active', 'JFK', '2023-01-01'),
-    ('Jane', 'Smith', 'LIC67890', '1975-10-22', 'Canada', 'First Officer', 8000, '2008-06-15', 'Active', 'YYZ', '2023-02-15'),
-    ('Carlos', 'Gomez', 'LIC54321', '1982-03-09', 'Mexico', 'Captain', 9500, '2006-04-25', 'Active', 'MEX', '2023-03-10'),
-    ('Emily', 'Johnson', 'LIC98765', '1988-07-12', 'UK', 'First Officer', 7500, '2010-09-12', 'Active', 'LHR', '2023-04-05'),
-    ('Paul', 'Brown', 'LIC13579', '1979-02-18', 'Australia', 'Captain', 11000, '2004-12-05', 'Active', 'SYD', '2023-05-20'),
-    ('Anna', 'Davis', 'LIC24680', '1990-11-05', 'Germany', 'First Officer', 7000, '2011-07-17', 'Active', 'FRA', '2023-06-25'),
-    ('Robert', 'Wilson', 'LIC11223', '1977-04-23', 'Brazil', 'Captain', 12000, '2003-11-11', 'Active', 'GRU', '2023-07-15'),
-    ('Maria', 'Martinez', 'LIC33445', '1985-01-30', 'Spain', 'First Officer', 6000, '2012-02-02', 'Active', 'MAD', '2023-08-10'),
-    ('David', 'Miller', 'LIC55667', '1983-09-13', 'France', 'Captain', 9000, '2007-05-27', 'Active', 'CDG', '2023-09-01'),
-    ('Sara', 'Garcia', 'LIC77889', '1987-06-19', 'Argentina', 'First Officer', 8500, '2010-03-30', 'Active', 'EZE', '2023-09-15');
+INSERT INTO users (first_name, last_name, phone_number, email, nationality, date_of_birth, document_id, passport_number, registration_date, flyer_number, address, id_users_type, password_hash, id_document_type) VALUES
+       ('John', 'Doe', '+123456789', 'john.doe@example.com', 'USA', '1985-03-21', '123456789', 'US123456', '2022-05-01', 10001, '123 Main St, New York, NY', 1, 'hashedpassword1', 1),
+       ('Jane', 'Smith', '+234567890', 'jane.smith@example.com', 'Canada', '1990-07-15', '234567890', 'CA234567', '2022-06-01', 10002, '456 Maple Ave, Toronto, ON', 1, 'hashedpassword2', 2),
+       ('Carlos', 'Gomez', '+345678901', 'carlos.gomez@example.com', 'Mexico', '1992-10-30', '345678901', 'MX345678', '2022-07-15', 10003, '789 Oak St, Mexico City, DF', 1, 'hashedpassword3', 3),
+       ('Alice', 'Brown', '+456789012', 'alice.brown@example.com', 'UK', '1988-02-20', '456789012', 'UK456789', '2022-08-05', 10004, '101 Birch Rd, London, ENG', 4, 'hashedpassword4', 4),
+       ('Liam', 'Nguyen', '+567890123', 'liam.nguyen@example.com', 'Vietnam', '1995-12-11', '567890123', 'VN567890', '2022-09-10', 10005, '202 Pine St, Hanoi', 5, 'hashedpassword5', 5),
+       ('Emma', 'Johnson', '+678901234', 'emma.johnson@example.com', 'Australia', '1982-06-25', '678901234', 'AU678901', '2022-10-20', 10006, '303 Cedar Ave, Sydney, NSW', 2, 'hashedpassword6', 6);
 
+INSERT INTO role (name, description) VALUES
+         ('Admin', 'Administrador del sistema'),
+         ('Pilot', 'Piloto de la aerolínea'),
+         ('Customer', 'Cliente de la aerolínea'),
+         ('Staff', 'Empleado de la aerolínea'),
+         ('Guest', 'Usuario invitado');
 
-INSERT INTO plane (model, manufacturer, capacity_economy, capacity_business, capacity_first_class, date_manufactured, last_maintenance_date, registration_number, fuel_capacity)
-VALUES
-    ('Boeing 737', 'Boeing', 180, 20, 10, '2010-03-15', '2024-09-01', 'N737EX', 26000),
-    ('Airbus A320', 'Airbus', 190, 25, 15, '2012-06-21', '2024-08-20', 'F320AL', 25000),
-    ('Boeing 777', 'Boeing', 300, 40, 20, '2009-11-11', '2024-07-10', 'B777EX', 35000),
-    ('Airbus A350', 'Airbus', 280, 35, 25, '2013-09-05', '2024-06-30', 'A350XY', 34000),
-    ('Boeing 787', 'Boeing', 260, 30, 20, '2015-01-22', '2024-05-15', 'B787XL', 33000);
+INSERT INTO permission (name, description) VALUES
+           ('Create Booking', 'Permiso para crear reservaciones'),
+           ('Cancel Booking', 'Permiso para cancelar reservaciones'),
+           ('Update Booking', 'Permiso para actualizar reservaciones'),
+           ('View Reports', 'Permiso para ver reportes del sistema'),
+           ('Manage Users', 'Permiso para gestionar usuarios');
 
+INSERT INTO role_permission (id_role, id_permission) VALUES
+         (1, 1),
+         (1, 2),
+         (1, 3),
+         (1, 4),
+         (1, 5),
+         (2, 3),
+         (2, 4),
+         (3, 1),
+         (3, 2),
+         (3, 3),
+         (4, 1),
+         (4, 3),
+         (4, 4),
+         (5, 1);
 
-INSERT INTO country (name, continent, language)
-VALUES
-    ('United States', 'North America', 'English'),
-    ('Canada', 'North America', 'English'),
-    ('Mexico', 'North America', 'Spanish'),
-    ('United Kingdom', 'Europe', 'English'),
-    ('France', 'Europe', 'French');
+INSERT INTO user_role (id_role, id_user) VALUES
+             (3, 1),
+             (3, 2),
+             (3, 3),
+             (4, 4),
+             (3, 5),
+             (3, 6);
 
+INSERT INTO flight_status (name, description) VALUES
+          ('Scheduled', 'Vuelo programado'),
+          ('Delayed', 'Vuelo retrasado'),
+          ('Cancelled', 'Vuelo cancelado'),
+          ('In Air', 'Vuelo en el aire'),
+          ('Arrived', 'Vuelo aterrizado');
 
-INSERT INTO city (name, country_id, timezone, latitude, longitude)
-VALUES
-    ('New York', 1, 'America/New_York', 40.7128, -74.0060),
-    ('Toronto', 2, 'America/Toronto', 43.651070, -79.347015),
-    ('Mexico City', 3, 'America/Mexico_City', 19.4326, -99.1332),
-    ('London', 4, 'Europe/London', 51.5074, -0.1278),
-    ('Paris', 5, 'Europe/Paris', 48.8566, 2.3522);
+INSERT INTO booking_status (name, description) VALUES
+       ('Pending', 'Reservación pendiente'),
+       ('Confirmed', 'Reservación confirmada'),
+       ('Cancelled', 'Reservación cancelada'),
+       ('Completed', 'Reservación completada'),
+       ('No Show', 'No se presentó');
 
+INSERT INTO seat_class (name) VALUES ('Economy'), ('Business'), ('First Class');
 
-INSERT INTO flight (flight_number, id_plane, id_departure_city, id_arrival_city, departure_time, arrival_time, status, flight_duration, distance_km, seats, id_captain, id_sub_captain, price_economy, price_business, price_first_class)
-VALUES
-    (101, 1, 1, 2, '2024-10-10 10:00:00', '2024-10-10 14:00:00', 'Scheduled', '04:00:00', 1500, 180, 1, 2, 200.00, 500.00, 1000.00),
-    (102, 2, 3, 4, '2024-10-11 08:00:00', '2024-10-11 12:00:00', 'Scheduled', '04:00:00', 1600, 200, 3, 4, 220.00, 520.00, 1020.00),
-    (103, 3, 5, 5, '2024-10-12 14:00:00', '2024-10-12 18:00:00', 'Scheduled', '04:00:00', 1700, 220, 5, 6, 240.00, 540.00, 1040.00),
-    (104, 4, 3, 2, '2024-10-13 16:00:00', '2024-10-13 20:00:00', 'Scheduled', '04:00:00', 1800, 240, 7, 8, 260.00, 560.00, 1060.00),
-    (105, 5, 1, 5, '2024-10-14 12:00:00', '2024-10-14 16:00:00', 'Scheduled', '04:00:00', 1900, 250, 9, 10, 280.00, 580.00, 1080.00);
+INSERT INTO special_request (name, description) VALUES
+        ('Vegetarian Meal', 'Comida vegetariana para pasajeros'),
+        ('Extra Legroom', 'Asiento con espacio adicional para las piernas'),
+        ('Window Seat', 'Asiento de ventana'),
+        ('Aisle Seat', 'Asiento de pasillo'),
+        ('Early Boarding', 'Embarque anticipado');
 
-INSERT INTO seat (id_flight, seat_number, is_reserved, price, seat_class)
-VALUES
-    (1, '1A', FALSE, 200.00, 'Economy'),
-    (1, '1B', FALSE, 200.00, 'Economy'),
-    (1, '2A', FALSE, 220.00, 'Business'),
-    (2, '2B', FALSE, 220.00, 'Business'),
-    (2, '3A', FALSE, 240.00, 'First Class'),
-    (3, '3B', FALSE, 240.00, 'First Class'),
-    (4, '4A', FALSE, 260.00, 'Economy'),
-    (5, '4B', FALSE, 260.00, 'Economy'),
-    (5, '5A', FALSE, 280.00, 'Business'),
-    (5, '5B', FALSE, 280.00, 'Business');
+INSERT INTO plane (model, manufacturer, capacity_economy, capacity_business, capacity_first_class, date_manufactured, last_maintenance_date, registration_number, fuel_capacity) VALUES
+     ('Boeing 737', 'Boeing', 150, 20, 10, '2015-03-15', '2024-04-20', 'REG12345', 5000.0),
+     ('Airbus A320', 'Airbus', 160, 25, 15, '2016-07-20', '2024-06-15', 'REG23456', 5200.0),
+     ('Embraer E190', 'Embraer', 100, 10, 5, '2018-11-25', '2024-07-30', 'REG34567', 4500.0),
+     ('Boeing 787', 'Boeing', 250, 30, 20, '2017-05-10', '2024-08-10', 'REG45678', 7000.0),
+     ('Airbus A330', 'Airbus', 270, 35, 25, '2019-09-14', '2024-09-25', 'REG56789', 7500.0),
+     ('Boeing 777', 'Boeing', 300, 40, 30, '2020-02-28', '2024-10-05', 'REG67890', 8000.0);
 
+INSERT INTO pilot_status (name, description) VALUES
+     ('Active', 'Piloto activo en la aerolínea'),
+     ('Inactive', 'Piloto actualmente inactivo'),
+     ('On Leave', 'Piloto en licencia temporal'),
+     ('Suspended', 'Piloto suspendido temporalmente'),
+     ('Retired', 'Piloto retirado');
 
-INSERT INTO scale (id_flight, id_city, arrival_time, departure_time, layover_duration)
-VALUES
-    (2, 3, '2024-10-10 13:00:00', '2024-10-10 14:00:00', '01:00:00'),
-    (3, 4, '2024-10-11 11:00:00', '2024-10-11 12:00:00', '01:00:00');
+INSERT INTO pilot (first_name, last_name, license_number, date_of_birth, nationality, rank, hours_flown, employee_date, id_pilot_status, home_base, last_medical_check) VALUES
+    ('John', 'Doe', 'A12345', '1975-04-12', 'USA', 'Captain', 15000, '2005-06-15', 1, 'JFK', '2023-07-10'),
+    ('Jane', 'Smith', 'B67890', '1980-08-22', 'Canada', 'First Officer', 9000, '2008-09-23', 1, 'LAX', '2023-06-12'),
+    ('Michael', 'Brown', 'C13579', '1972-12-04', 'UK', 'Captain', 18000, '2002-11-19', 2, 'LHR', '2023-05-08'),
+    ('Emily', 'Davis', 'D24680', '1985-05-30', 'Australia', 'First Officer', 7500, '2010-02-27', 1, 'SYD', '2023-07-15'),
+    ('Daniel', 'Wilson', 'E11223', '1978-03-18', 'USA', 'Captain', 12000, '2006-01-15', 3, 'ORD', '2023-04-10'),
+    ('Sarah', 'Johnson', 'F44556', '1990-07-09', 'USA', 'First Officer', 5000, '2015-08-03', 4, 'MIA', '2023-03-01');
 
+INSERT INTO flight (flight_number, id_plane, id_departure_city, id_arrival_city, departure_time, arrival_time, id_flight_status, flight_duration, distance_km, seats, id_captain, id_sub_captain, price_economy, price_business, price_first_class) VALUES
+    (101, 1, 1, 2, '2024-11-01 06:00:00', '2024-11-01 08:00:00', 1, '02:00:00', 800.0, 180, 1, 2, 100.00, 200.00, 300.00),
+    (102, 2, 2, 3, '2024-11-01 10:00:00', '2024-11-01 13:30:00', 2, '03:30:00', 1500.0, 220, 3, 4, 120.00, 250.00, 350.00),
+    (103, 3, 3, 4, '2024-11-01 15:00:00', '2024-11-01 17:30:00', 1, '02:30:00', 900.0, 115, 5, 6, 90.00, 210.00, 310.00),
+    (104, 4, 4, 5, '2024-11-01 18:00:00', '2024-11-01 23:00:00', 3, '05:00:00', 3500.0, 300, 4, 1, 150.00, 300.00, 400.00),
+    (105, 5, 5, 6, '2024-11-02 06:00:00', '2024-11-02 09:00:00', 1, '03:00:00', 1200.0, 330, 2, 1, 130.00, 280.00, 380.00),
+    (106, 6, 6, 7, '2024-11-02 12:00:00', '2024-11-02 14:45:00', 2, '02:45:00', 1100.0, 240, 1, 5, 110.00, 260.00, 360.00);
 
-INSERT INTO users (first_name, last_name, phone_number, email, nationality, date_of_birth, document_id, passport_number, registration_date, flyer_number, address, user_type, password_hash)
-VALUES
-    ('John', 'Doe', '1234567890', 'john.doe@example.com', 'USA', '1985-02-15', 'D1234567', 'P1234567', '2024-01-01', 10001, '1234 Elm Street', 'regular', 'hash_password1'),
-    ('Jane', 'Smith', '2345678901', 'jane.smith@example.com', 'Canada', '1990-03-22', 'S2345678', 'P2345678', '2024-01-05', 10002, '5678 Maple Avenue', 'regular', 'hash_password2'),
-    ('Mike', 'Johnson', '3456789012', 'mike.johnson@example.com', 'UK', '1988-07-10', 'J3456789', 'P3456789', '2024-01-10', 10003, '9012 Oak Drive', 'premium', 'hash_password3'),
-    ('Emily', 'Brown', '4567890123', 'emily.brown@example.com', 'Australia', '1995-05-14', 'B4567890', 'P4567890', '2024-02-02', 10004, '3456 Pine Lane', 'regular', 'hash_password4'),
-    ('Chris', 'Davis', '5678901234', 'chris.davis@example.com', 'New Zealand', '1992-09-18', 'D5678901', 'P5678901', '2024-02-15', 10005, '7890 Cedar Court', 'regular', 'hash_password5'),
-    ('Sarah', 'Miller', '6789012345', 'sarah.miller@example.com', 'Germany', '1991-11-25', 'M6789012', 'P6789012', '2024-02-20', 10006, '1234 Birch Way', 'premium', 'hash_password6'),
-    ('David', 'Wilson', '7890123456', 'david.wilson@example.com', 'France', '1989-04-30', 'W7890123', 'P7890123', '2024-02-28', 10007, '5678 Redwood Road', 'regular', 'hash_password7'),
-    ('Jessica', 'Moore', '8901234567', 'jessica.moore@example.com', 'Spain', '1987-12-12', 'M8901234', 'P8901234', '2024-03-01', 10008, '9012 Willow Drive', 'regular', 'hash_password8'),
-    ('Daniel', 'Taylor', '9012345678', 'daniel.taylor@example.com', 'Italy', '1993-06-08', 'T9012345', 'P9012345', '2024-03-10', 10009, '3456 Palm Avenue', 'regular', 'hash_password9'),
-    ('Sophia', 'Anderson', '0123456789', 'sophia.anderson@example.com', 'Japan', '1986-01-04', 'A0123456', 'P0123456', '2024-03-15', 10010, '7890 Cypress Boulevard', 'premium', 'hash_password10');
+INSERT INTO scale (id_flight, id_city, arrival_time, departure_time, layover_duration) VALUES
+   (1, 3, '2024-11-01 08:00:00', '2024-11-01 09:00:00', '01:00:00'),
+   (1, 4, '2024-11-01 09:30:00', '2024-11-01 10:15:00', '00:45:00'),
+   (3, 5, '2024-11-01 13:30:00', '2024-11-01 14:00:00', '00:30:00'),
+   (3, 6, '2024-11-01 17:30:00', '2024-11-01 18:30:00', '01:00:00'),
+   (4, 2, '2024-11-01 23:00:00', '2024-11-02 00:15:00', '01:15:00'),
+   (5, 3, '2024-11-02 09:00:00', '2024-11-02 10:00:00', '01:00:00');
+
+INSERT INTO seat (id_flight, seat_number, is_reserved, price, id_seat_class) VALUES
+     (1, '1A', FALSE, 150.00, 1),
+     (1, '1B', FALSE, 150.00, 1),
+     (1, '2A', FALSE, 300.00, 2),
+     (1, '2B', FALSE, 300.00, 2),
+     (2, '10A', FALSE, 120.00, 1),
+     (2, '10B', FALSE, 120.00, 1),
+     (2, '1A', FALSE, 250.00, 2),
+     (2, '1B', FALSE, 250.00, 2),
+     (3, '5A', FALSE, 100.00, 1),
+     (3, '5B', FALSE, 100.00, 1),
+     (3, '2A', FALSE, 200.00, 2),
+     (3, '2B', FALSE, 200.00, 2);
