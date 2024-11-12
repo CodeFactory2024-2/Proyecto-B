@@ -42,6 +42,17 @@ type Flight {
     status: Status!
 }
 
+type FlightItinerary {
+    flights: [Flight!]!
+    origin: String!
+    destination: String!
+    departureDate: String!
+    arrivalDate: String!
+    totalDuration: String!
+    layoverTimes: [String!]!
+    totalPrice: Float!
+}
+
 # Type definition for FlightType
 type FlightType {
     # Unique identifier for the flight type
@@ -97,6 +108,8 @@ type Query {
     getFlightById(id: ID!): Flight
     # Fetch all airplane families
     getAllFamilies: [AirplaneFamily]
+    # Fetch all fligts with scales
+    findItinerary(origin: String!, destination: String!): FlightItinerary
 }
 
 # Mutation type for creating, updating, and deleting data

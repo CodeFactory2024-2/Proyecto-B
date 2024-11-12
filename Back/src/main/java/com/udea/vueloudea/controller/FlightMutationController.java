@@ -41,6 +41,15 @@ public class FlightMutationController {
                                @Argument @NotBlank @NotNull String arrivalTime,
                                @Argument @NotBlank @NotNull Long statusId) {
 
+        LocalDate depDate = LocalDate.parse(departureDate);
+        LocalDate arrDate = LocalDate.parse(arrivalDate);
+        LocalTime depTime = LocalTime.parse(departureTime);
+        LocalTime arrTime = LocalTime.parse(arrivalTime);
+
+        if (depDate.isAfter(arrDate) || (depDate.isEqual(arrDate) && depTime.isAfter(arrTime))) {
+            throw new IllegalArgumentException("Departure date/time must be before or equal to arrival date/time");
+        }
+
         Flight flight = new Flight();
         flight.setFlightNumber(flightNumber);
         flight.setOrigin(cityService.getCityByIataCode(originIata));
@@ -48,10 +57,10 @@ public class FlightMutationController {
         flight.setPrice(price);
         flight.setTaxPercentage(taxPercentage);
         flight.setSurchargePercentage(surchargePercentage);
-        flight.setDepartureDate(LocalDate.parse(departureDate));
-        flight.setArrivalDate(LocalDate.parse(arrivalDate));
-        flight.setDepartureTime(LocalTime.parse(departureTime));
-        flight.setArrivalTime(LocalTime.parse(arrivalTime));
+        flight.setDepartureDate(depDate);
+        flight.setArrivalDate(arrDate);
+        flight.setDepartureTime(depTime);
+        flight.setArrivalTime(arrTime);
         flight.setFlightType(flightTypeService.getFlightTypeById(flightTypeId));
         flight.setAirplaneType(airplaneTypeService.getAirplaneTypeById(airplaneTypeId));
         flight.setStatus(statusService.getStatusById(statusId));
@@ -75,7 +84,6 @@ public class FlightMutationController {
                                @Argument String arrivalTime,
                                @Argument @Positive Long statusId) {
 
-        id = Long.valueOf(sanitize(id.toString()));
         Flight existingFlight = flightService.getFlightById(id);
         if (existingFlight != null) {
             if (flightNumber != null) existingFlight.setFlightNumber(sanitize(flightNumber));
@@ -92,6 +100,15 @@ public class FlightMutationController {
             if (airplaneTypeId != null) existingFlight.setAirplaneType(airplaneTypeService.getAirplaneTypeById(sanitize(airplaneTypeId)));
             if (statusId != null) existingFlight.setStatus(statusService.getStatusById(statusId));
 
+            LocalDate depDate = existingFlight.getDepartureDate();
+            LocalDate arrDate = existingFlight.getArrivalDate();
+            LocalTime depTime = existingFlight.getDepartureTime();
+            LocalTime arrTime = existingFlight.getArrivalTime();
+
+            if (depDate.isAfter(arrDate) || (depDate.isEqual(arrDate) && depTime.isAfter(arrTime))) {
+                throw new IllegalArgumentException("Departure date/time must be before or equal to arrival date/time");
+            }
+
             return flightService.updateFlight(existingFlight);
         } else {
             throw new RuntimeException("Flight not found with id: " + id);
@@ -99,7 +116,7 @@ public class FlightMutationController {
     }
 
     @MutationMapping
-    public boolean deleteFlight(@Argument @NotBlank @NotNull @Positive Long id) {
+    public boolean deleteFlight(@Argument @NotBlank @NotNull Long id) {
         flightService.deleteFlight(id);
         return true;
     }

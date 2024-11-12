@@ -20,7 +20,7 @@ public class FlightController {
     private FlightService flightService;
 
     @QueryMapping
-    public Flight getFlightById(@Argument @Positive @NotNull @NotBlank Long id) {
+    public Flight getFlightById(@Argument @Positive  Long id) {
         return flightService.getFlightById(id);
     }
 

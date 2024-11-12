@@ -1,21 +1,37 @@
 package com.udea.vueloudea.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDate;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FlightItinerary {
-    private List<Flight> flights;  // Lista de vuelos que forman el itinerario
+    private List<Flight> flights;
     private String origin;
     private String destination;
     private LocalDate departureDate;
     private LocalDate arrivalDate;
     private Duration totalDuration;
-    private List<Duration> layoverTimes;  // Lista de tiempos de escala
+    private List<Duration> layoverTimes;
     private double totalPrice;
+
+    // Constructor, getters, and setters
+
+    public FlightItinerary(List<Flight> flights) {
+        if (flights == null || flights.isEmpty()) {
+            throw new IllegalArgumentException("The flight list cannot be null or empty");
+        }
+        this.flights = flights;
+        this.origin = flights.get(0).getOrigin().getIataCode();
+        this.destination = flights.get(flights.size() - 1).getDestination().getIataCode();
+        this.departureDate = flights.get(0).getDepartureDate();
+        this.arrivalDate = flights.get(flights.size() - 1).getArrivalDate();
+        this.totalDuration = calculateTotalDuration();
+        this.layoverTimes = calculateLayoverTimes();
+        this.totalPrice = calculateTotalPrice();
+    }
 
     public List<Flight> getFlights() {
         return flights;
@@ -25,8 +41,16 @@ public class FlightItinerary {
         return origin;
     }
 
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
     public String getDestination() {
         return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 
     public LocalDate getDepartureDate() {
@@ -49,27 +73,14 @@ public class FlightItinerary {
         return totalPrice;
     }
 
-    public FlightItinerary(List<Flight> flights) {
-        this.flights = flights;
-        this.origin = flights.get(0).getOrigin().getIataCode();  // Obtén el código IATA de la ciudad de origen
-        this.destination = flights.get(flights.size() - 1).getDestination().getIataCode();  // Obtén el código IATA de la ciudad de destino
-        this.departureDate = flights.get(0).getDepartureDate();
-        this.arrivalDate = flights.get(flights.size() - 1).getArrivalDate();
-        this.totalDuration = calculateTotalDuration();
-        this.layoverTimes = calculateLayoverTimes();
-        this.totalPrice = calculateTotalPrice();
-    }
-
     private Duration calculateTotalDuration() {
         Duration totalDuration = Duration.ZERO;
 
-        // Sumar duración de todos los vuelos
         for (Flight flight : flights) {
             Duration flightDuration = Duration.between(flight.getDepartureTime(), flight.getArrivalTime());
             totalDuration = totalDuration.plus(flightDuration);
         }
 
-        // Añadir tiempos de escala
         for (Duration layover : calculateLayoverTimes()) {
             totalDuration = totalDuration.plus(layover);
         }
@@ -101,6 +112,4 @@ public class FlightItinerary {
 
         return totalPrice;
     }
-
-    // Getters y otros métodos útiles pueden añadirse aquí.
 }

@@ -1,12 +1,16 @@
 package com.udea.vueloudea.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 @Entity
 public class City {
     @Id
+    @JsonProperty("iataCode")
     private String iataCode; // Código IATA (ej: BOG, MDE)
+    @JsonProperty("airportName")
     private String airportName; // Nombre completo del aeropuerto
+    @JsonProperty("country")
     private String country;
 
     public City() {
