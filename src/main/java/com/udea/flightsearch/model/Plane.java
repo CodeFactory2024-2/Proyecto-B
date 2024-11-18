@@ -19,8 +19,14 @@ public class Plane {
     private String model;
     @Column(name = "seat_capacity", nullable = false)
     private Long seatCapacity;
-    @Column(name = "seat_Distribution", nullable = false, length = 50)
+    @Column(name = "seat_distribution", nullable = false, length = 50)
     private String seatDistribution;
+    @Column(name = "allows_personal_item", nullable = false)
+    private Boolean allowsPersonalItem;
+    @Column(name = "allows_carry_on", nullable = false)
+    private Boolean allowsCarryOn;
+    @Column(name = "allows_checked", nullable = false)
+    private Boolean allowsChecked;
 
     @OneToMany(mappedBy = "plane", cascade = CascadeType.ALL)
     private List<Flight> flights = new ArrayList<>();
@@ -31,10 +37,13 @@ public class Plane {
     public Plane() {
     }
 
-    public Plane(String model, Long seatCapacity, String seatDistribution) {
+    public Plane(String model, Long seatCapacity, String seatDistribution, Boolean allowsPersonalItem, Boolean allowsCarryOn, Boolean allowsChecked) {
         this.model = model;
         this.seatCapacity = seatCapacity;
         this.seatDistribution = seatDistribution;
+        this.allowsPersonalItem = allowsPersonalItem;
+        this.allowsCarryOn = allowsCarryOn;
+        this.allowsChecked = allowsChecked;
     }
 
     public Long getPlaneId() {
@@ -67,6 +76,30 @@ public class Plane {
 
     public void setSeatDistribution(String seatDistribution) {
         this.seatDistribution = seatDistribution;
+    }
+    
+    public Boolean getAllowsPersonalItem() {
+        return allowsPersonalItem;
+    }
+
+    public void setAllowsPersonalItem(Boolean allowsPersonalItem) {
+        this.allowsPersonalItem = allowsPersonalItem;
+    }
+
+    public Boolean getAllowsCarryOn() {
+        return allowsCarryOn;
+    }
+
+    public void setAllowsCarryOn(Boolean allowsCarryOn) {
+        this.allowsCarryOn = allowsCarryOn;
+    }
+
+    public Boolean getAllowsChecked() {
+        return allowsChecked;
+    }
+
+    public void setAllowsChecked(Boolean allowsChecked) {
+        this.allowsChecked = allowsChecked;
     }
 
     public List<Flight> getFlights() {

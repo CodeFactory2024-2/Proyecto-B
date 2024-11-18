@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,8 +35,10 @@ public class FlightController {
             @Argument String originName,
             @Argument String destinationName,
             @Argument Integer passengerAmount,
+            @Argument Integer scaleAmount,
             @Argument LocalDate departureDate,
             @Argument LocalDate arrivalDate,
+            @Argument Integer maxFlightHours,
             //Search between price values
             @Argument Double minimumPrice,
             @Argument Double maximumPrice,
@@ -45,7 +48,11 @@ public class FlightController {
             //Search between different times of a day
             @Argument String minimumTime,
             @Argument String maximumTime,
+            @Argument Boolean searchPersonalItem,
+            @Argument Boolean searchCarryOn,
+            @Argument Boolean searchChecked,
             //ordering values, true or false, ordering by departure time is true by default
+            @Argument Boolean orderByArrivalTimeAsc,
             @Argument Boolean orderByDepartureDateAsc,
             @Argument Boolean orderByPriceAsc) {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
@@ -59,14 +66,33 @@ public class FlightController {
                         minimumTime,
                         maximumTime,
                         timeFormatter);
+        if (scaleAmount == null) {
+            scaleAmount = 0;
+        }
         if (minimumTime == null) {
             minimumTime = "0:00";
         }
         if (maximumTime == null) {
             maximumTime = "23:59";
         }
+        if (searchPersonalItem == null) {
+            searchPersonalItem = true;
+        }
+        if (searchCarryOn == null) {
+            searchCarryOn = true;
+        }
+        if (searchChecked == null) {
+            searchChecked = true;
+        }
+        List<Boolean> searchBaggage = new ArrayList<>();
+        searchBaggage.add(searchPersonalItem);
+        searchBaggage.add(searchCarryOn);
+        searchBaggage.add(searchChecked);
         if (orderByDepartureDateAsc == null) {
-            orderByDepartureDateAsc = false;
+            orderByDepartureDateAsc = true;
+        }
+        if (orderByArrivalTimeAsc == null) {
+            orderByArrivalTimeAsc = false;
         }
         if (orderByPriceAsc == null) {
             orderByPriceAsc = false;
@@ -75,8 +101,10 @@ public class FlightController {
                 originName,
                 destinationName,
                 passengerAmount,
+                scaleAmount,
                 departureDate,
                 arrivalDate,
+                maxFlightHours,
                 //Search between price values
                 minimumPrice,
                 maximumPrice,
@@ -86,7 +114,10 @@ public class FlightController {
                 //Search between different times of a day
                 LocalTime.parse(minimumTime, timeFormatter),
                 LocalTime.parse(maximumTime, timeFormatter),
-                //both of this values should be false or true, not null
+                //search baggage array
+                searchBaggage,
+                //any of this values should be false or true, not null
+                orderByArrivalTimeAsc,
                 orderByDepartureDateAsc,
                 orderByPriceAsc);
     }

@@ -21,14 +21,18 @@ public class FlightSearchService {
     public List<Flight> searchFlights(String originName,
                                       String destinationName,
                                       Integer passengerAmount,
+                                      Integer scaleAmount,
                                       LocalDate departureDate,
                                       LocalDate arrivalDate,
+                                      Integer maxFlightHours,
                                       Double minimumPrice,
                                       Double maximumPrice,
                                       LocalDate minimumDate,
                                       LocalDate maximumDate,
                                       LocalTime minimumTime,
                                       LocalTime maximumTime,
+                                      List<Boolean> searchBaggage,
+                                      boolean orderByArrivalTimeAsc,
                                       boolean orderByDepartureDateAsc,
                                       boolean orderByPriceAsc
     ) {
@@ -38,14 +42,18 @@ public class FlightSearchService {
                         originName,
                         destinationName,
                         passengerAmount,
+                        scaleAmount,
                         departureDate,
                         arrivalDate,
+                        maxFlightHours,
                         minimumPrice,
                         maximumPrice,
                         minimumDate,
                         maximumDate,
                         minimumTime,
                         maximumTime,
+                        searchBaggage,
+                        orderByArrivalTimeAsc,
                         orderByDepartureDateAsc,
                         orderByPriceAsc)
         );
@@ -64,6 +72,7 @@ public class FlightSearchService {
                         originName,
                         destinationName,
                         passengerAmount,
+                        null,
                         departureDate,
                         null,
                         null,
@@ -72,6 +81,9 @@ public class FlightSearchService {
                         null,
                         null,
                         null,
+                        null,
+                        null,
+                        false,
                         false,
                         true)
         );
@@ -82,6 +94,7 @@ public class FlightSearchService {
                             destinationName,
                             originName,
                             passengerAmount,
+                            null,
                             arrivalDate,
                             null,
                             null,
@@ -90,6 +103,9 @@ public class FlightSearchService {
                             null,
                             null,
                             null,
+                            null,
+                            null,
+                            false,
                             false,
                             true)
         );

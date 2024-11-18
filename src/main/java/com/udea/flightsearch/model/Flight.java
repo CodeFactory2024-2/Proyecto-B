@@ -55,6 +55,8 @@ public class Flight {
     private boolean isCanceled;
     @Column(name = "sell_seats")
     private Integer sellSeats;
+    @Column(name = "scale_amount")
+    private Integer scaleAmount;
 
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL)
     private List<Scale> scales = new ArrayList<>();
@@ -72,7 +74,7 @@ public class Flight {
     public Flight() {
     }
 
-    public Flight(String flightNumber, Airport origin, Airport destination, Timestamp departureDate, Timestamp arrivalDate, Plane plane, BigDecimal price, BigDecimal taxPercentage, BigDecimal surchargePercentage, boolean isCanceled, Integer sellSeats) {
+    public Flight(String flightNumber, Airport origin, Airport destination, Timestamp departureDate, Timestamp arrivalDate, Plane plane, BigDecimal price, BigDecimal taxPercentage, BigDecimal surchargePercentage, boolean isCanceled, Integer sellSeats, Integer scaleAmount) {
         this.flightNumber = flightNumber;
         this.origin = origin;
         this.destination = destination;
@@ -84,6 +86,7 @@ public class Flight {
         this.surchargePercentage = surchargePercentage;
         this.isCanceled = isCanceled;
         this.sellSeats = sellSeats;
+        this.scaleAmount = scaleAmount;
     }
 
     public Long getFlightId() {
@@ -188,6 +191,14 @@ public class Flight {
 
     public void setScales(List<Scale> scales) {
         this.scales = scales;
+    }
+
+    public Integer getScaleAmount() {
+        return scaleAmount;
+    }
+
+    public void setScaleAmount(Integer scaleAmount) {
+        this.scaleAmount = scaleAmount;
     }
 
     //IDIOMS

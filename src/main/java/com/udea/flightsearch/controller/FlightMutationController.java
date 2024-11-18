@@ -32,7 +32,8 @@ public class FlightMutationController {
                                @Argument BigDecimal taxPercentage,
                                @Argument BigDecimal surchargePercentage,
                                @Argument Boolean isCanceled,
-                               @Argument Integer sellSeats) {
+                               @Argument Integer sellSeats,
+                               @Argument Integer scaleAmount) {
 
         Flight flight = new Flight();
         flight.setFlightNumber(flightNumber);
@@ -46,6 +47,7 @@ public class FlightMutationController {
         flight.setSurchargePercentage(surchargePercentage);
         flight.setCanceled(isCanceled);
         flight.setSellSeats(sellSeats);
+        flight.setScaleAmount(scaleAmount);
         return flightSearchService.createOrUpdateFlight(flight);
     }
 
@@ -61,7 +63,8 @@ public class FlightMutationController {
                                @Argument BigDecimal taxPercentage,
                                @Argument BigDecimal surchargePercentage,
                                @Argument Boolean isCanceled,
-                               @Argument Integer sellSeats) {
+                               @Argument Integer sellSeats,
+                               @Argument Integer scaleAmount) {
 
         Optional<Flight> existingFlightOpt = flightSearchService.getFlightById(id);
         if (existingFlightOpt.isPresent()) {
@@ -77,6 +80,7 @@ public class FlightMutationController {
             if (surchargePercentage != null) existingFlight.setSurchargePercentage(surchargePercentage);
             if (isCanceled != null) existingFlight.setCanceled(isCanceled);
             if (sellSeats != null) existingFlight.setSellSeats(sellSeats);
+            if (scaleAmount != null) existingFlight.setScaleAmount(scaleAmount);
 
             return flightSearchService.createOrUpdateFlight(existingFlight);
         } else {

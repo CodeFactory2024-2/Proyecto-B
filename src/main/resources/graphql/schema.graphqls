@@ -6,14 +6,20 @@ type Query {
         originName: String!,
         destinationName: String!,
         passengerAmount: Int!,
+        scaleAmount: Int,
         departureDate: String,
         arrivalDate: String,
+        maxFlightHours: Int,
         minimumPrice: Float,
         maximumPrice: Float,
         minimumDate: String,
         maximumDate: String,
         minimumTime: String,
         maximumTime: String,
+        searchPersonalItem: Boolean,
+        searchCarryOn: Boolean,
+        searchChecked: Boolean,
+        orderByArrivalTimeAsc: Boolean,
         orderByDepartureDateAsc: Boolean,
         orderByPriceAsc: Boolean): [Flight]
     searchRoundTrip(
@@ -38,6 +44,7 @@ type Mutation {
         surchargePercentage: Float!,
         isCanceled: Boolean!,
         sellSeats: Int
+        scaleAmount: Int!
     ): Flight
 
     updateFlight(
@@ -53,6 +60,7 @@ type Mutation {
         surchargePercentage: Float,
         isCanceled: Boolean,
         sellSeats: Int
+        scaleAmount: Int
     ): Flight!
 
     deleteFlight(id: ID!): Boolean!
@@ -86,6 +94,7 @@ type Flight {
     surchargePercentage: Float!
     isCanceled: Boolean!
     sellSeats: Int
+    scaleAmount: Int!
 }
 
 type Plane {
@@ -93,6 +102,9 @@ type Plane {
     model: String!
     seatCapacity: Float!
     seatDistribution: String!
+    allowsPersonalItem: Boolean!
+    allowsCarryOn: Boolean!
+    allowsChecked: Boolean!
 }
 
 type Scale {

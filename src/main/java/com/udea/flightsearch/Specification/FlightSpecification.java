@@ -20,18 +20,26 @@ public class FlightSpecification {
             String originName,
             String destinationName,
             Integer passengerAmount,
+            Integer scaleAmount,
             LocalDate departureDate,
             LocalDate arrivalDate,
+            Integer maxFlightHours,
             Double minimumPrice,
             Double maximumPrice,
             LocalDate minimumDate,
             LocalDate maximumDate,
             LocalTime minimumTime,
             LocalTime maximumTime,
+            List<Boolean> searchBaggage,
+            boolean orderByArrivalTimeAsc,
             boolean orderByDepartureDateAsc,
             boolean orderByPriceAsc
     ) {
         return (root, query, criteriaBuilder) -> {
+
+            //Use DISTINCT in the query to avoid duplicates
+            query.distinct(true);
+
             List<Predicate> predicates = new ArrayList<>();
 
             // Comprueba que exista un nombre de origen, realiza el join entre Flight y Airport, tambien el join entre Airport y City
@@ -75,6 +83,15 @@ public class FlightSpecification {
                 predicates.add(criteriaBuilder.between(root.get("departureDate"), minimumDateStartOfDay, maximumDateEndOfDay));
             }
 
+            // Filtra la busqueda dado un tiempo maximo de vuelo
+            if (maxFlightHours != null) {
+
+                long maxFlightSeconds = maxFlightHours * 3600;
+
+                // Add the condition for duration
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(criteriaBuilder.diff(root.get("arrivalDate"), root.get("departureDate")), maxFlightSeconds * 1e9));
+            }
+
             // Filtra la busqueda entre un rango de horarios de salida (Ignorando Fecha)
             if (minimumTime != null && maximumTime != null) {
                 Expression<Integer> departureHour = criteriaBuilder.function("DATE_PART", Integer.class, criteriaBuilder.literal("HOUR"), root.get("departureDate"));
@@ -100,9 +117,44 @@ public class FlightSpecification {
                 predicates.add(timePredicate);
             }
 
+            if (searchBaggage != null) {
+
+                List<Predicate> baggagePredicate = new ArrayList<>();
+
+                Join<Flight, Plane> planeJoin = root.join("plane");   // Flight -> Plane
+
+                System.out.println("searchBaggage: " + searchBaggage);
+                System.out.println("get(0): " + searchBaggage.get(0));
+                System.out.println("get(1): " + searchBaggage.get(1));
+                System.out.println("get(2): " + searchBaggage.get(2));
+
+                if (searchBaggage.get(0) != null && searchBaggage.get(0)) {
+                    System.out.println("get(0): " + searchBaggage.get(0));
+                    baggagePredicate.add(criteriaBuilder.isTrue(planeJoin.get("allowsPersonalItem")));
+                } else {
+                    baggagePredicate.add(criteriaBuilder.isFalse(planeJoin.get("allowsPersonalItem")));
+                }
+                if (searchBaggage.get(1) != null && searchBaggage.get(1)) {
+                    System.out.println("get(1): " + searchBaggage.get(1));
+                    baggagePredicate.add(criteriaBuilder.isTrue(planeJoin.get("allowsCarryOn")));
+                } else {
+                    baggagePredicate.add(criteriaBuilder.isFalse(planeJoin.get("allowsCarryOn")));
+                }
+                if (searchBaggage.get(2) != null && searchBaggage.get(2)) {
+                    System.out.println("get(2): " + searchBaggage.get(2));
+                    baggagePredicate.add(criteriaBuilder.isTrue(planeJoin.get("allowsChecked")));
+                } else {
+                    baggagePredicate.add(criteriaBuilder.isFalse(planeJoin.get("allowsChecked")));
+                }
+
+                predicates.add(criteriaBuilder.and(baggagePredicate.toArray(new Predicate[0])));
+            }
+
             //retorna solo vuelos que no estan cancelados
             predicates.add(criteriaBuilder.equal(root.get("isCanceled"), false));
 
+            //retorna vuelos que tengan la misma o menor cantidad de escalas
+            predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("scaleAmount"), scaleAmount));
 
             // Join with the 'Plane' entity
             Join<Flight, Plane> planeJoin = root.join("plane");
@@ -113,11 +165,16 @@ public class FlightSpecification {
             // Add the predicate to check if availableSeats is greater than or equal to the specified minimum
             predicates.add(criteriaBuilder.greaterThanOrEqualTo(availableSeats, passengerAmount));
 
-            // Realiza ordenamiento, ya sea por dia de salida o por precio, este se realiza de manera ascendente
+            // Realiza ordenamiento, ya sea por dia de salida, por precio o por tiempo de llegada, este se realiza de manera ascendente
             if (orderByDepartureDateAsc) {
                 query.orderBy(criteriaBuilder.asc(root.get("departureDate")));
             } else if (orderByPriceAsc) {
                 query.orderBy(criteriaBuilder.asc(root.get("price")));
+            } else if (orderByArrivalTimeAsc) {
+                query.orderBy(
+                        criteriaBuilder.asc(criteriaBuilder.function("HOUR", Integer.class, root.get("arrivalTime"))), // Orders by hour
+                        criteriaBuilder.asc(criteriaBuilder.function("MINUTE", Integer.class, root.get("arrivalTime"))) // Orders by minute
+                );
             }
 
             // Combine all predicates with 'AND'
