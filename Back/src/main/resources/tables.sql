@@ -239,13 +239,13 @@ CREATE TABLE "scale"(
 );
 ALTER TABLE
     "scale" ADD PRIMARY KEY("id_scale");
-CREATE TABLE "user_role"(
-                            "id_user_role" bigserial NOT NULL,
+CREATE TABLE "users_role"(
+                            "id_users_role" bigserial NOT NULL,
                            "id_role" BIGINT NOT NULL,
                            "id_user" BIGINT NOT NULL
 );
 ALTER TABLE
-    "user_role" ADD PRIMARY KEY("id_user_role");
+    "users_role" ADD PRIMARY KEY("id_users_role");
 CREATE TABLE "document_type"(
                             "id_document_type" bigserial NOT NULL,
                             "name" VARCHAR(255) NOT NULL
@@ -282,11 +282,11 @@ ALTER TABLE
 ALTER TABLE
     "luggage" ADD CONSTRAINT "luggage_id_passenger_foreign" FOREIGN KEY("id_passenger") REFERENCES "passenger"("id_passenger");
 ALTER TABLE
-    "user_role" ADD CONSTRAINT "user_role_id_user_foreign" FOREIGN KEY("id_user") REFERENCES "users"("id_user");
+    "users_role" ADD CONSTRAINT "users_role_id_user_foreign" FOREIGN KEY("id_user") REFERENCES "users"("id_user");
 ALTER TABLE
     "payment" ADD CONSTRAINT "payment_id_booking_foreign" FOREIGN KEY("id_booking") REFERENCES "booking"("id_booking");
 ALTER TABLE
-    "user_role" ADD CONSTRAINT "user_role_id_role_foreign" FOREIGN KEY("id_role") REFERENCES "role"("id_role");
+    "users_role" ADD CONSTRAINT "users_role_id_role_foreign" FOREIGN KEY("id_role") REFERENCES "role"("id_role");
 ALTER TABLE
     "flight" ADD CONSTRAINT "flight_id_captain_foreign" FOREIGN KEY("id_captain") REFERENCES "pilot"("id_pilot");
 ALTER TABLE
@@ -397,7 +397,7 @@ INSERT INTO role_permission (id_role, id_permission) VALUES
          (4, 4),
          (5, 1);
 
-INSERT INTO user_role (id_role, id_user) VALUES
+INSERT INTO users_role (id_role, id_user) VALUES
              (3, 1),
              (3, 2),
              (3, 3),

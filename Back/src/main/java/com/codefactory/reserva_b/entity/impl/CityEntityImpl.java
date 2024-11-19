@@ -19,11 +19,11 @@ public class CityEntityImpl implements ICityEntity, IEntity, Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "country_id", nullable = false)
-    private BigInteger countryId;
+    @Column(name = "id_country", nullable = false)
+    private BigInteger idCountry;
 
     @ManyToOne
-    @JoinColumn(name = "country_id", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "id_country", nullable = false, insertable=false, updatable=false)
     private CountryEntityImpl country;
 
     @Column(name = "timezone", nullable = false)
@@ -35,72 +35,85 @@ public class CityEntityImpl implements ICityEntity, IEntity, Serializable {
     @Column(name = "longitude", nullable = false)
     private Double longitude;
 
-    // Constructor
-    public CityEntityImpl(String name, BigInteger countryId, String timezone, Double latitude, Double longitude) {
+    public CityEntityImpl() {}
+
+    public CityEntityImpl(String name, BigInteger idCountry, CountryEntityImpl country, String timezone, Double latitude, Double longitude) {
         this.name = name;
-        this.countryId = countryId;
+        this.idCountry = idCountry;
+        this.country = country;
         this.timezone = timezone;
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public CityEntityImpl() {
-    }
-
+    @Override
     public BigInteger getIdCity() {
         return idCity;
     }
 
+    @Override
     public void setIdCity(BigInteger idCity) {
         this.idCity = idCity;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    public BigInteger getCountryId() {
-        return countryId;
+    @Override
+    public BigInteger getIdCountry() {
+        return idCountry;
     }
 
-    public void setCountryId(BigInteger countryId) {
-        this.countryId = countryId;
+    @Override
+    public void setIdCountry(BigInteger idCountry) {
+        this.idCountry = idCountry;
     }
 
+    @Override
     public CountryEntityImpl getCountry() {
         return country;
     }
 
+    @Override
     public void setCountry(CountryEntityImpl country) {
         this.country = country;
     }
 
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
+    @Override
     public String getTimezone() {
         return timezone;
     }
 
+    @Override
     public void setTimezone(String timezone) {
         this.timezone = timezone;
+    }
+
+    @Override
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    @Override
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    @Override
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    @Override
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     @Override
@@ -121,7 +134,7 @@ public class CityEntityImpl implements ICityEntity, IEntity, Serializable {
         return "CityEntityImpl{" +
                 "idCity=" + idCity +
                 ", name='" + name + '\'' +
-                ", countryId=" + countryId +
+                ", idCountry=" + idCountry +
                 ", country=" + country +
                 ", timezone='" + timezone + '\'' +
                 ", latitude=" + latitude +

@@ -8,7 +8,7 @@ public interface ICityEntity {
     // Getters
     BigInteger getIdCity();
     String getName();
-    BigInteger getCountryId();
+    BigInteger getIdCountry();
     CountryEntityImpl getCountry();
     Double getLatitude();
     Double getLongitude();
@@ -17,7 +17,7 @@ public interface ICityEntity {
     // Setters
     void setIdCity(BigInteger idCity);
     void setName(String name);
-    void setCountryId(BigInteger countryId);
+    void setIdCountry(BigInteger idCountry);
     void setCountry(CountryEntityImpl country);
     void setLatitude(Double latitude);
     void setLongitude(Double longitude);

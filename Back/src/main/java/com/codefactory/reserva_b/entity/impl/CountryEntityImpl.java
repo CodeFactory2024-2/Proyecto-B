@@ -36,34 +36,42 @@ public class CountryEntityImpl implements ICountryEntity, IEntity, Serializable 
     public CountryEntityImpl() {
     }
 
+    @Override
     public BigInteger getIdCountry() {
         return idCountry;
     }
 
+    @Override
     public void setIdCountry(BigInteger idCountry) {
         this.idCountry = idCountry;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
+    @Override
     public String getContinent() {
         return continent;
     }
 
+    @Override
     public void setContinent(String continent) {
         this.continent = continent;
     }
 
+    @Override
     public String getLanguage() {
         return language;
     }
 
+    @Override
     public void setLanguage(String language) {
         this.language = language;
     }
