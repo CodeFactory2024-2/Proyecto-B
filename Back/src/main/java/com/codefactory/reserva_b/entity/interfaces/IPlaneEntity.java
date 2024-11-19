@@ -10,8 +10,8 @@ public interface IPlaneEntity {
     String getManufacturer();
     Long getCapacityEconomy();
     Long getCapacityBusiness();
-    LocalDate getDateManufactured();
     Long getCapacityFirstClass();
+    LocalDate getDateManufactured();
     LocalDate getLastMaintenanceDate();
     String getRegistrationNumber();
     Double getFuelCapacity();
@@ -22,8 +22,8 @@ public interface IPlaneEntity {
     void setManufacturer(String manufacturer);
     void setCapacityEconomy(Long capacityEconomy);
     void setCapacityBusiness(Long capacityBusiness);
-    void setDateManufactured(LocalDate dateManufactured);
     void setCapacityFirstClass(Long capacityFirstClass);
+    void setDateManufactured(LocalDate dateManufactured);
     void setLastMaintenanceDate(LocalDate lastMaintenanceDate);
     void setRegistrationNumber(String registrationNumber);
     void setFuelCapacity(Double fuelCapacity);

@@ -10,8 +10,8 @@ public interface IScaleEntity {
     // Getters
     BigInteger getIdScale();
     BigInteger getIdFlight();
-    CityEntityImpl getCity();
     BigInteger getIdCity();
+    CityEntityImpl getCity();
     LocalDateTime getArrivalTime();
     LocalDateTime getDepartureTime();
     LocalTime getLayoverDuration();
@@ -19,8 +19,8 @@ public interface IScaleEntity {
     // Setters
     void setIdScale(BigInteger idScale);
     void setIdFlight(BigInteger idFlight);
-    void setCity(CityEntityImpl city);
     void setIdCity(BigInteger idCity);
+    void setCity(CityEntityImpl city);
     void setArrivalTime(LocalDateTime arrivalTime);
     void setDepartureTime(LocalDateTime departureTime);
     void setLayoverDuration(LocalTime layoverDuration);

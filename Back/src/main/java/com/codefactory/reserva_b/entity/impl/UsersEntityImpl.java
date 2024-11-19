@@ -50,20 +50,26 @@ public class UsersEntityImpl implements IUsersEntity, IEntity, Serializable {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "user_type")
-    private String userType;
+    @Column(name = "id_users_type")
+    private BigInteger idUsersType;
+
+    @ManyToOne
+    @JoinColumn(name = "id_users_type", nullable = false, insertable = false, updatable = false)
+    private UsersTypeEntityImpl usersType;
+
+    @Column(name = "id_document_type")
+    private BigInteger idDocumentType;
+
+    @ManyToOne
+    @JoinColumn(name = "id_document_type", nullable = false, insertable = false, updatable = false)
+    private DocumentTypeEntityImpl documentType;
 
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
-    // Constructor por defecto
-    public UsersEntityImpl() {
-    }
+    public UsersEntityImpl() {}
 
-    // Constructor con todos los campos
-    public UsersEntityImpl(String firstName, String lastName, String phoneNumber, String email,
-                           String nationality, LocalDate dateOfBirth, String documentId, String passportNumber,
-                           LocalDate registrationDate, Long flyerNumber, String address, String userType, String passwordHash) {
+    public UsersEntityImpl(String firstName, String lastName, String phoneNumber, String email, String nationality, LocalDate dateOfBirth, String documentId, String passportNumber, LocalDate registrationDate, Long flyerNumber, String address, BigInteger idUsersType, BigInteger idDocumentType, String passwordHash) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
@@ -75,112 +81,171 @@ public class UsersEntityImpl implements IUsersEntity, IEntity, Serializable {
         this.registrationDate = registrationDate;
         this.flyerNumber = flyerNumber;
         this.address = address;
-        this.userType = userType;
+        this.idUsersType = idUsersType;
+        this.idDocumentType = idDocumentType;
         this.passwordHash = passwordHash;
     }
 
-    public BigInteger getIdUser() {
+    public BigInteger getIdUsers() {
         return idUser;
     }
 
+    @Override
     public void setIdUser(BigInteger idUser) {
         this.idUser = idUser;
     }
 
+    @Override
     public String getFirstName() {
         return firstName;
     }
 
+    @Override
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    @Override
     public String getLastName() {
         return lastName;
     }
 
+    @Override
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    @Override
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
+    @Override
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
+    @Override
     public String getNationality() {
         return nationality;
     }
 
+    @Override
     public void setNationality(String nationality) {
         this.nationality = nationality;
     }
 
-    public String getDocumentId() {
-        return documentId;
+    @Override
+    public String getEmail() {
+        return email;
     }
 
-    public void setDocumentId(String documentId) {
-        this.documentId = documentId;
+    @Override
+    public void setEmail(String email) {
+        this.email = email;
     }
 
+    @Override
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
+    @Override
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
+    @Override
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    @Override
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
+    }
+
+    @Override
     public String getPassportNumber() {
         return passportNumber;
     }
 
+    @Override
     public void setPassportNumber(String passportNumber) {
         this.passportNumber = passportNumber;
     }
 
+    @Override
     public LocalDate getRegistrationDate() {
         return registrationDate;
     }
 
+    @Override
     public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
     }
 
+    @Override
     public Long getFlyerNumber() {
         return flyerNumber;
     }
 
+    @Override
     public void setFlyerNumber(Long flyerNumber) {
         this.flyerNumber = flyerNumber;
     }
 
+    @Override
     public String getAddress() {
         return address;
     }
 
+    @Override
     public void setAddress(String address) {
         this.address = address;
     }
 
-    public String getUserType() {
-        return userType;
+    @Override
+    public BigInteger getIdUsersType() {
+        return idUsersType;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
+    @Override
+    public void setIdUsersType(BigInteger idUsersType) {
+        this.idUsersType = idUsersType;
+    }
+
+    @Override
+    public UsersTypeEntityImpl getUsersType() {
+        return usersType;
+    }
+
+    @Override
+    public void setUsersType(UsersTypeEntityImpl usersType) {
+        this.usersType = usersType;
+    }
+
+    @Override
+    public BigInteger getIdDocumentType() {
+        return idDocumentType;
+    }
+
+    @Override
+    public void setIdDocumentType(BigInteger idDocumentType) {
+        this.idDocumentType = idDocumentType;
+    }
+
+    @Override
+    public DocumentTypeEntityImpl getDocumentType() {
+        return documentType;
+    }
+
+    public void setDocumentType(DocumentTypeEntityImpl documentType) {
+        this.documentType = documentType;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     @Override
@@ -211,7 +276,10 @@ public class UsersEntityImpl implements IUsersEntity, IEntity, Serializable {
                 ", registrationDate=" + registrationDate +
                 ", flyerNumber=" + flyerNumber +
                 ", address='" + address + '\'' +
-                ", userType='" + userType + '\'' +
+                ", idUsersType=" + idUsersType +
+                ", usersType=" + usersType +
+                ", idDocumentType=" + idDocumentType +
+                ", documentType=" + documentType +
                 ", passwordHash='" + passwordHash + '\'' +
                 '}';
     }

@@ -46,8 +46,12 @@ public class FlightEntityImpl implements IFlightEntity, IEntity, Serializable {
     @Column(name = "arrival_time", nullable = false)
     private LocalDateTime arrivalTime;
 
-    @Column(name = "status", nullable = false)
-    private String status;
+    @Column(name = "id_flight_status", nullable = false)
+    private BigInteger idFlightStatus;
+
+    @ManyToOne
+    @JoinColumn(name = "id_flight_status", nullable = false, insertable=false, updatable=false)
+    private FlightStatusEntityImpl flightStatus;
 
     @Column(name = "flight_duration", nullable = false)
     private String flightDuration;
@@ -84,21 +88,17 @@ public class FlightEntityImpl implements IFlightEntity, IEntity, Serializable {
     @OneToMany(mappedBy = "idFlight", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ScaleEntityImpl> scales;
 
-    // Constructor
-    public FlightEntityImpl(Long flightNumber, BigInteger idPlane, BigInteger idDepartureCity,
-                            BigInteger idArrivalCity, LocalDateTime departureTime, LocalDateTime arrivalTime,
-                            String status, String flightDuration, Double distanceKm,
-                            Integer seats, BigInteger idCaptain, BigInteger idSubCaptain,
-                            Double priceEconomy, Double priceBusiness, Double priceFirstClass) {
+    public FlightEntityImpl() {}
 
-        this.flightNumber = flightNumber;
+    public FlightEntityImpl(BigInteger idPlane, Long flightNumber, BigInteger idDepartureCity, BigInteger idArrivalCity, LocalDateTime departureTime, LocalDateTime arrivalTime, BigInteger idFlightStatus, String flightDuration, Double distanceKm, Integer seats, BigInteger idCaptain, BigInteger idSubCaptain, Double priceEconomy, Double priceBusiness, Double priceFirstClass) {
         this.idPlane = idPlane;
+        this.flightNumber = flightNumber;
         this.idDepartureCity = idDepartureCity;
         this.idArrivalCity = idArrivalCity;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
-        this.status = status;
-        this.flightDuration = flightDuration; // Ajusta según el tipo que decidas usar
+        this.idFlightStatus = idFlightStatus;
+        this.flightDuration = flightDuration;
         this.distanceKm = distanceKm;
         this.seats = seats;
         this.idCaptain = idCaptain;
@@ -108,181 +108,232 @@ public class FlightEntityImpl implements IFlightEntity, IEntity, Serializable {
         this.priceFirstClass = priceFirstClass;
     }
 
-    public FlightEntityImpl() {
-    }
-
+    @Override
     public BigInteger getIdFlight() {
         return idFlight;
     }
 
+    @Override
     public void setIdFlight(BigInteger idFlight) {
         this.idFlight = idFlight;
     }
 
+    @Override
     public Long getFlightNumber() {
         return flightNumber;
     }
 
+    @Override
     public void setFlightNumber(Long flightNumber) {
         this.flightNumber = flightNumber;
     }
 
+    @Override
     public BigInteger getIdPlane() {
         return idPlane;
     }
 
+    @Override
     public void setIdPlane(BigInteger idPlane) {
         this.idPlane = idPlane;
     }
 
+    @Override
     public PlaneEntityImpl getPlane() {
         return plane;
     }
 
+    @Override
     public void setPlane(PlaneEntityImpl plane) {
         this.plane = plane;
     }
 
+    @Override
     public BigInteger getIdDepartureCity() {
         return idDepartureCity;
     }
 
+    @Override
     public void setIdDepartureCity(BigInteger idDepartureCity) {
         this.idDepartureCity = idDepartureCity;
     }
 
+    @Override
     public CityEntityImpl getDepartureCity() {
         return departureCity;
     }
 
+    @Override
     public void setDepartureCity(CityEntityImpl departureCity) {
         this.departureCity = departureCity;
     }
 
+    @Override
     public BigInteger getIdArrivalCity() {
         return idArrivalCity;
     }
 
+    @Override
     public void setIdArrivalCity(BigInteger idArrivalCity) {
         this.idArrivalCity = idArrivalCity;
     }
 
+    @Override
     public CityEntityImpl getArrivalCity() {
         return arrivalCity;
     }
 
+    @Override
     public void setArrivalCity(CityEntityImpl arrivalCity) {
         this.arrivalCity = arrivalCity;
     }
 
-    public LocalDateTime getDepartureTime() {
-        return departureTime;
-    }
-
-    public void setDepartureTime(LocalDateTime departureTime) {
-        this.departureTime = departureTime;
-    }
-
+    @Override
     public LocalDateTime getArrivalTime() {
         return arrivalTime;
     }
 
+    @Override
     public void setArrivalTime(LocalDateTime arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 
-    public String getStatus() {
-        return status;
+    @Override
+    public LocalDateTime getDepartureTime() {
+        return departureTime;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    @Override
+    public void setDepartureTime(LocalDateTime departureTime) {
+        this.departureTime = departureTime;
     }
 
+    @Override
+    public BigInteger getIdFlightStatus() {
+        return idFlightStatus;
+    }
+
+    @Override
+    public void setIdFlightStatus(BigInteger idFlightStatus) {
+        this.idFlightStatus = idFlightStatus;
+    }
+
+    @Override
+    public FlightStatusEntityImpl getFlightStatus() {
+        return flightStatus;
+    }
+
+    @Override
+    public void setFlightStatus(FlightStatusEntityImpl flightStatus) {
+        this.flightStatus = flightStatus;
+    }
+
+    @Override
     public String getFlightDuration() {
         return flightDuration;
     }
 
+    @Override
     public void setFlightDuration(String flightDuration) {
         this.flightDuration = flightDuration;
     }
 
+    @Override
     public Double getDistanceKm() {
         return distanceKm;
     }
 
+    @Override
     public void setDistanceKm(Double distanceKm) {
         this.distanceKm = distanceKm;
     }
 
-    public Integer getSeats() {
-        return seats;
-    }
-
-    public void setSeats(Integer seats) {
-        this.seats = seats;
-    }
-
+    @Override
     public BigInteger getIdCaptain() {
         return idCaptain;
     }
 
+    @Override
     public void setIdCaptain(BigInteger idCaptain) {
         this.idCaptain = idCaptain;
     }
 
+    @Override
+    public Integer getSeats() {
+        return seats;
+    }
+
+    @Override
+    public void setSeats(Integer seats) {
+        this.seats = seats;
+    }
+
+    @Override
     public PilotEntityImpl getCaptain() {
         return captain;
     }
 
+    @Override
     public void setCaptain(PilotEntityImpl captain) {
         this.captain = captain;
     }
 
+    @Override
     public BigInteger getIdSubCaptain() {
         return idSubCaptain;
     }
 
+    @Override
     public void setIdSubCaptain(BigInteger idSubCaptain) {
         this.idSubCaptain = idSubCaptain;
     }
 
+    @Override
     public PilotEntityImpl getSubCaptain() {
         return subCaptain;
     }
 
+    @Override
     public void setSubCaptain(PilotEntityImpl subCaptain) {
         this.subCaptain = subCaptain;
     }
 
+    @Override
     public Double getPriceEconomy() {
         return priceEconomy;
     }
 
+    @Override
     public void setPriceEconomy(Double priceEconomy) {
         this.priceEconomy = priceEconomy;
     }
 
+    @Override
     public Double getPriceBusiness() {
         return priceBusiness;
     }
 
+    @Override
     public void setPriceBusiness(Double priceBusiness) {
         this.priceBusiness = priceBusiness;
     }
 
+    @Override
     public Double getPriceFirstClass() {
         return priceFirstClass;
     }
 
+    @Override
     public void setPriceFirstClass(Double priceFirstClass) {
         this.priceFirstClass = priceFirstClass;
     }
 
+    @Override
     public List<ScaleEntityImpl> getScales() {
         return scales;
     }
 
+    @Override
     public void setScales(List<ScaleEntityImpl> scales) {
         this.scales = scales;
     }
@@ -313,7 +364,8 @@ public class FlightEntityImpl implements IFlightEntity, IEntity, Serializable {
                 ", arrivalCity=" + arrivalCity +
                 ", departureTime=" + departureTime +
                 ", arrivalTime=" + arrivalTime +
-                ", status='" + status + '\'' +
+                ", idFlightStatus=" + idFlightStatus +
+                ", flightStatus=" + flightStatus +
                 ", flightDuration='" + flightDuration + '\'' +
                 ", distanceKm=" + distanceKm +
                 ", seats=" + seats +

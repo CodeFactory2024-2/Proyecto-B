@@ -1,9 +1,6 @@
 package com.codefactory.reserva_b.entity.interfaces;
 
-import com.codefactory.reserva_b.entity.impl.CityEntityImpl;
-import com.codefactory.reserva_b.entity.impl.PilotEntityImpl;
-import com.codefactory.reserva_b.entity.impl.PlaneEntityImpl;
-import com.codefactory.reserva_b.entity.impl.ScaleEntityImpl;
+import com.codefactory.reserva_b.entity.impl.*;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -21,7 +18,8 @@ public interface IFlightEntity {
     CityEntityImpl getArrivalCity();
     LocalDateTime getDepartureTime();
     LocalDateTime getArrivalTime();
-    String getStatus();
+    BigInteger getIdFlightStatus();
+    FlightStatusEntityImpl getFlightStatus();
     String getFlightDuration();
     Double getDistanceKm();
     Integer getSeats();
@@ -45,7 +43,8 @@ public interface IFlightEntity {
     void setArrivalCity(CityEntityImpl arrivalCity);
     void setDepartureTime(LocalDateTime departureTime);
     void setArrivalTime(LocalDateTime arrivalTime);
-    void setStatus(String status);
+    void setIdFlightStatus(BigInteger idFlightStatus);
+    void setFlightStatus(FlightStatusEntityImpl flightStatus);
     void setFlightDuration(String flightDuration);
     void setDistanceKm(Double distanceKm);
     void setSeats(Integer seats);

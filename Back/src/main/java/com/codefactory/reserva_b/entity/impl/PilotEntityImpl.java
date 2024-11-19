@@ -41,8 +41,12 @@ public class PilotEntityImpl implements IPilotEntity, IEntity, Serializable {
     @Column(name = "employee_date", nullable = false)
     private LocalDate employeeDate;
 
-    @Column(name = "status", nullable = false)
-    private String status;
+    @Column(name = "id_pilot_status", nullable = false)
+    private BigInteger idPilotStatus;
+
+    @ManyToOne
+    @JoinColumn(name = "id_pilot_status", nullable = false, insertable = false, updatable = false)
+    private PilotStatusEntityImpl pilotStatus;
 
     @Column(name = "home_base")
     private String homeBase;
@@ -50,11 +54,9 @@ public class PilotEntityImpl implements IPilotEntity, IEntity, Serializable {
     @Column(name = "last_medical_check", nullable = false)
     private LocalDate lastMedicalCheck;
 
-    // Constructor
-    public PilotEntityImpl(String firstName, String lastName, String licenseNumber,
-                           LocalDate dateOfBirth, String nationality, String rank,
-                           Double hoursFlown, LocalDate employeeDate, String status,
-                           String homeBase, LocalDate lastMedicalCheck) {
+    public PilotEntityImpl() {}
+
+    public PilotEntityImpl(String firstName, String lastName, String licenseNumber, LocalDate dateOfBirth, String nationality, String rank, Double hoursFlown, LocalDate employeeDate, BigInteger idPilotStatus, String homeBase, LocalDate lastMedicalCheck) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.licenseNumber = licenseNumber;
@@ -63,106 +65,137 @@ public class PilotEntityImpl implements IPilotEntity, IEntity, Serializable {
         this.rank = rank;
         this.hoursFlown = hoursFlown;
         this.employeeDate = employeeDate;
-        this.status = status;
+        this.idPilotStatus = idPilotStatus;
         this.homeBase = homeBase;
         this.lastMedicalCheck = lastMedicalCheck;
     }
 
-    public PilotEntityImpl() {
-    }
-
+    @Override
     public BigInteger getIdPilot() {
         return idPilot;
     }
 
+    @Override
     public void setIdPilot(BigInteger idPilot) {
         this.idPilot = idPilot;
     }
 
+    @Override
     public String getFirstName() {
         return firstName;
     }
 
+    @Override
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    @Override
     public String getLastName() {
         return lastName;
     }
 
+    @Override
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    @Override
     public String getLicenseNumber() {
         return licenseNumber;
     }
 
+    @Override
     public void setLicenseNumber(String licenseNumber) {
         this.licenseNumber = licenseNumber;
     }
 
+    @Override
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
+    @Override
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
+    @Override
     public String getNationality() {
         return nationality;
     }
 
+    @Override
     public void setNationality(String nationality) {
         this.nationality = nationality;
     }
 
+    @Override
     public String getRank() {
         return rank;
     }
 
+    @Override
     public void setRank(String rank) {
         this.rank = rank;
     }
 
+    @Override
     public Double getHoursFlown() {
         return hoursFlown;
     }
 
+    @Override
     public void setHoursFlown(Double hoursFlown) {
         this.hoursFlown = hoursFlown;
     }
 
+    @Override
     public LocalDate getEmployeeDate() {
         return employeeDate;
     }
 
+    @Override
     public void setEmployeeDate(LocalDate employeeDate) {
         this.employeeDate = employeeDate;
     }
 
-    public String getStatus() {
-        return status;
+    @Override
+    public BigInteger getIdPilotStatus() {
+        return idPilotStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    @Override
+    public void setIdPilotStatus(BigInteger idPilotStatus) {
+        this.idPilotStatus = idPilotStatus;
     }
 
+    @Override
+    public PilotStatusEntityImpl getPilotStatus() {
+        return pilotStatus;
+    }
+
+    @Override
+    public void setPilotStatus(PilotStatusEntityImpl pilotStatus) {
+        this.pilotStatus = pilotStatus;
+    }
+
+    @Override
     public String getHomeBase() {
         return homeBase;
     }
 
+    @Override
     public void setHomeBase(String homeBase) {
         this.homeBase = homeBase;
     }
 
+    @Override
     public LocalDate getLastMedicalCheck() {
         return lastMedicalCheck;
     }
 
+    @Override
     public void setLastMedicalCheck(LocalDate lastMedicalCheck) {
         this.lastMedicalCheck = lastMedicalCheck;
     }
@@ -192,7 +225,8 @@ public class PilotEntityImpl implements IPilotEntity, IEntity, Serializable {
                 ", rank='" + rank + '\'' +
                 ", hoursFlown=" + hoursFlown +
                 ", employeeDate=" + employeeDate +
-                ", status='" + status + '\'' +
+                ", idPilotStatus=" + idPilotStatus +
+                ", pilotStatus=" + pilotStatus +
                 ", homeBase='" + homeBase + '\'' +
                 ", lastMedicalCheck=" + lastMedicalCheck +
                 '}';

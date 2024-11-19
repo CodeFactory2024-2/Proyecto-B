@@ -1,23 +1,29 @@
 package com.codefactory.reserva_b.entity.interfaces;
 
+import com.codefactory.reserva_b.entity.impl.DocumentTypeEntityImpl;
+import com.codefactory.reserva_b.entity.impl.UsersTypeEntityImpl;
+
 import java.math.BigInteger;
 import java.time.LocalDate;
 
 public interface IUsersEntity {
     // Getters
-    BigInteger getIdUser();
+    BigInteger getIdUsers();
     String getFirstName();
     String getLastName();
     String getPhoneNumber();
     String getEmail();
     String getNationality();
-    String getDocumentId();
     LocalDate getDateOfBirth();
+    String getDocumentId();
     String getPassportNumber();
     LocalDate getRegistrationDate();
     Long getFlyerNumber();
     String getAddress();
-    String getUserType();
+    BigInteger getIdUsersType();
+    UsersTypeEntityImpl getUsersType();
+    BigInteger getIdDocumentType();
+    DocumentTypeEntityImpl getDocumentType();
 
     // Setters
     void setIdUser(BigInteger idUser);
@@ -26,11 +32,15 @@ public interface IUsersEntity {
     void setPhoneNumber(String phoneNumber);
     void setEmail(String email);
     void setNationality(String nationality);
-    void setDocumentId(String documentId);
     void setDateOfBirth(LocalDate dateOfBirth);
+    void setDocumentId(String documentId);
     void setPassportNumber(String passportNumber);
     void setRegistrationDate(LocalDate registrationDate);
     void setFlyerNumber(Long flyerNumber);
     void setAddress(String address);
-    void setUserType(String userType);
+    void setIdUsersType(BigInteger idUsersType);
+    void setUsersType(UsersTypeEntityImpl usersType);
+    void setIdDocumentType(BigInteger idDocumentType);
+    void setDocumentType(DocumentTypeEntityImpl documentType);
+    void setPasswordHash(String passwordHash);
 }

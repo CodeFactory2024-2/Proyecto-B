@@ -11,7 +11,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "payment")
 public class PaymentEntityImpl implements IPaymentEntity, IEntity, Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_payment")
@@ -26,58 +25,108 @@ public class PaymentEntityImpl implements IPaymentEntity, IEntity, Serializable 
     @Column(name = "payment_date", nullable = false)
     private LocalDateTime paymentDate;
 
-    @Column(name = "payment_status", nullable = false)
-    private String paymentStatus;
+    @Column(name = "id_payment_status", nullable = false)
+    private BigInteger idPaymentStatus;
 
-    // Constructor
-    public PaymentEntityImpl(BigInteger idBooking, BigDecimal amount, LocalDateTime paymentDate, String paymentStatus) {
+    @ManyToOne
+    @JoinColumn(name = "id_payment_status", nullable = false, insertable = false, updatable = false)
+    private PaymentStatusEntityImpl paymentStatus;
+
+    @Column(name = "id_payment_method", nullable = false)
+    private BigInteger idPaymentMethod;
+
+    @ManyToOne
+    @JoinColumn(name = "id_payment_method", nullable = false, insertable = false, updatable = false)
+    private PaymentMethodEntityImpl paymentMethod;
+
+    public PaymentEntityImpl() {}
+
+    public PaymentEntityImpl(BigInteger idBooking, BigDecimal amount, LocalDateTime paymentDate, BigInteger idPaymentStatus, BigInteger idPaymentMethod) {
         this.idBooking = idBooking;
         this.amount = amount;
         this.paymentDate = paymentDate;
-        this.paymentStatus = paymentStatus;
+        this.idPaymentStatus = idPaymentStatus;
+        this.idPaymentMethod = idPaymentMethod;
     }
 
-    public PaymentEntityImpl() {
-    }
-
+    @Override
     public BigInteger getIdPayment() {
         return idPayment;
     }
 
+    @Override
     public void setIdPayment(BigInteger idPayment) {
         this.idPayment = idPayment;
     }
 
+    @Override
     public BigInteger getIdBooking() {
         return idBooking;
     }
 
+    @Override
     public void setIdBooking(BigInteger idBooking) {
         this.idBooking = idBooking;
     }
 
+    @Override
     public BigDecimal getAmount() {
         return amount;
     }
 
+    @Override
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
+    @Override
     public LocalDateTime getPaymentDate() {
         return paymentDate;
     }
 
+    @Override
     public void setPaymentDate(LocalDateTime paymentDate) {
         this.paymentDate = paymentDate;
     }
 
-    public String getPaymentStatus() {
+    @Override
+    public BigInteger getIdPaymentStatus() {
+        return idPaymentStatus;
+    }
+
+    @Override
+    public void setIdPaymentStatus(BigInteger idPaymentStatus) {
+        this.idPaymentStatus = idPaymentStatus;
+    }
+
+    @Override
+    public PaymentStatusEntityImpl getPaymentStatus() {
         return paymentStatus;
     }
 
-    public void setPaymentStatus(String paymentStatus) {
+    @Override
+    public void setPaymentStatus(PaymentStatusEntityImpl paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+
+    @Override
+    public BigInteger getIdPaymentMethod() {
+        return idPaymentMethod;
+    }
+
+    @Override
+    public void setIdPaymentMethod(BigInteger idPaymentMethod) {
+        this.idPaymentMethod = idPaymentMethod;
+    }
+
+    @Override
+    public PaymentMethodEntityImpl getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    @Override
+    public void setPaymentMethod(PaymentMethodEntityImpl paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     @Override
@@ -100,7 +149,10 @@ public class PaymentEntityImpl implements IPaymentEntity, IEntity, Serializable 
                 ", idBooking=" + idBooking +
                 ", amount=" + amount +
                 ", paymentDate=" + paymentDate +
-                ", paymentStatus='" + paymentStatus + '\'' +
+                ", idPaymentStatus=" + idPaymentStatus +
+                ", paymentStatus=" + paymentStatus +
+                ", idPaymentMethod=" + idPaymentMethod +
+                ", paymentMethod=" + paymentMethod +
                 '}';
     }
 }

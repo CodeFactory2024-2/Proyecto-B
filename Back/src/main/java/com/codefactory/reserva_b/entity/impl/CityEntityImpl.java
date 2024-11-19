@@ -37,10 +37,9 @@ public class CityEntityImpl implements ICityEntity, IEntity, Serializable {
 
     public CityEntityImpl() {}
 
-    public CityEntityImpl(String name, BigInteger idCountry, CountryEntityImpl country, String timezone, Double latitude, Double longitude) {
+    public CityEntityImpl(String name, BigInteger idCountry,String timezone, Double latitude, Double longitude) {
         this.name = name;
         this.idCountry = idCountry;
-        this.country = country;
         this.timezone = timezone;
         this.latitude = latitude;
         this.longitude = longitude;

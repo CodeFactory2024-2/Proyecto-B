@@ -102,11 +102,17 @@ type FlightStatus {
 type Luggage {
     idLuggage: ID!
     idPassenger: ID!
-    type: String
+    idLuggageType: ID!
+    LuggageType: LuggageType!
     heightCm: Float!
     weightKg: Float!
     widthCm: Float!
     extraFree: Float
+}
+
+type LuggageType {
+    idLuggageType: ID!
+    name: String!
 }
 
 type Passenger {
@@ -205,18 +211,19 @@ type Scale {
     layoverDuration: String!
 }
 
+type SeatClass {
+    idSeatClass: ID!
+    name: String!
+}
+
 type Seat {
     idSeat: ID!
     idFlight: ID!
     seatNumber: String!
     isReserved: Boolean!
     price: Float!
-    seatClass: SeatClass!
-}
-
-type SeatClass {
     idSeatClass: ID!
-    name: String!
+    seatClass: SeatClass!
 }
 
 type SpecialRequest {
@@ -262,7 +269,7 @@ input BookingInput {
 
 input LuggageInput {
     idPassenger: ID!
-    type: String
+    idLuggageType: ID!
     heightCm: Float!
     weightKg: Float!
     widthCm: Float!

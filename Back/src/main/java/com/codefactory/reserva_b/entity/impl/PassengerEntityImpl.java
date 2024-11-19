@@ -11,7 +11,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "passenger")
 public class PassengerEntityImpl implements IPassengerEntity, IEntity, Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_passenger")
@@ -42,19 +41,22 @@ public class PassengerEntityImpl implements IPassengerEntity, IEntity, Serializa
     @Column(name = "nationality")
     private String nationality;
 
-    @Column(name = "special_requests")
-    private String specialRequests;
-
     @Column(name = "luggage_included", nullable = false)
     private Boolean luggageIncluded;
+
+    @Column(name = "id_document_type", nullable = false)
+    private BigInteger idDocumentType;
+
+    @ManyToOne
+    @JoinColumn(name = "id_document_type", nullable = false, insertable=false, updatable=false)
+    private DocumentTypeEntityImpl documentType;
 
     @OneToMany(mappedBy = "idPassenger", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<LuggageEntityImpl> luggage;
 
-    // Constructor
-    public PassengerEntityImpl(BigInteger idSeat, String firstName, String lastName, LocalDate dateOfBirth,
-                               String documentId, String passportNumber, String nationality, String specialRequests,
-                               Boolean luggageIncluded) {
+    public PassengerEntityImpl() {}
+
+    public PassengerEntityImpl(BigInteger idSeat, String firstName, String lastName, LocalDate dateOfBirth, String documentId, String passportNumber, String nationality, Boolean luggageIncluded, BigInteger idDocumentType) {
         this.idSeat = idSeat;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -62,105 +64,136 @@ public class PassengerEntityImpl implements IPassengerEntity, IEntity, Serializa
         this.documentId = documentId;
         this.passportNumber = passportNumber;
         this.nationality = nationality;
-        this.specialRequests = specialRequests;
         this.luggageIncluded = luggageIncluded;
+        this.idDocumentType = idDocumentType;
     }
 
-    public PassengerEntityImpl() {
-    }
-
+    @Override
     public BigInteger getIdPassenger() {
         return idPassenger;
     }
 
+    @Override
     public void setIdPassenger(BigInteger idPassenger) {
         this.idPassenger = idPassenger;
     }
 
+    @Override
     public BigInteger getIdSeat() {
         return idSeat;
     }
 
+    @Override
     public void setIdSeat(BigInteger idSeat) {
         this.idSeat = idSeat;
     }
 
+    @Override
     public SeatEntityImpl getSeat() {
         return seat;
     }
 
+    @Override
     public void setSeat(SeatEntityImpl seat) {
         this.seat = seat;
     }
 
+    @Override
     public String getFirstName() {
         return firstName;
     }
 
+    @Override
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
+    @Override
     public String getLastName() {
         return lastName;
     }
 
+    @Override
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    @Override
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    @Override
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    @Override
     public String getDocumentId() {
         return documentId;
     }
 
+    @Override
     public void setDocumentId(String documentId) {
         this.documentId = documentId;
     }
 
+    @Override
     public String getPassportNumber() {
         return passportNumber;
     }
 
+    @Override
     public void setPassportNumber(String passportNumber) {
         this.passportNumber = passportNumber;
     }
 
+    @Override
     public String getNationality() {
         return nationality;
     }
 
+    @Override
     public void setNationality(String nationality) {
         this.nationality = nationality;
     }
 
-    public String getSpecialRequests() {
-        return specialRequests;
-    }
-
-    public void setSpecialRequests(String specialRequests) {
-        this.specialRequests = specialRequests;
-    }
-
+    @Override
     public Boolean getLuggageIncluded() {
         return luggageIncluded;
     }
 
+    @Override
     public void setLuggageIncluded(Boolean luggageIncluded) {
         this.luggageIncluded = luggageIncluded;
     }
 
+    @Override
+    public BigInteger getIdDocumentType() {
+        return idDocumentType;
+    }
+
+    @Override
+    public void setIdDocumentType(BigInteger idDocumentType) {
+        this.idDocumentType = idDocumentType;
+    }
+
+    @Override
+    public DocumentTypeEntityImpl getDocumentType() {
+        return documentType;
+    }
+
+    @Override
+    public void setDocumentType(DocumentTypeEntityImpl documentType) {
+        this.documentType = documentType;
+    }
+
+    @Override
     public List<LuggageEntityImpl> getLuggage() {
         return luggage;
     }
 
+    @Override
     public void setLuggage(List<LuggageEntityImpl> luggage) {
         this.luggage = luggage;
     }
@@ -190,8 +223,9 @@ public class PassengerEntityImpl implements IPassengerEntity, IEntity, Serializa
                 ", documentId='" + documentId + '\'' +
                 ", passportNumber='" + passportNumber + '\'' +
                 ", nationality='" + nationality + '\'' +
-                ", specialRequests='" + specialRequests + '\'' +
                 ", luggageIncluded=" + luggageIncluded +
+                ", idDocumentType=" + idDocumentType +
+                ", documentType=" + documentType +
                 ", luggage=" + luggage +
                 '}';
     }

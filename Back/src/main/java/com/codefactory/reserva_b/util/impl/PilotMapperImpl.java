@@ -1,7 +1,6 @@
 package com.codefactory.reserva_b.util.impl;
 
 import com.codefactory.reserva_b.dto.impl.PilotResponseDTOImpl;
-import com.codefactory.reserva_b.dto.interfaces.IPilotResponseDTO;
 import com.codefactory.reserva_b.entity.interfaces.IPilotEntity;
 import com.codefactory.reserva_b.util.interfaces.IPilotMapper;
 import org.springframework.stereotype.Component;
@@ -25,7 +24,7 @@ public class PilotMapperImpl implements IPilotMapper {
         String rank = pilotEntity.getRank();
         Float hoursFlown = pilotEntity.getHoursFlown() != null ? pilotEntity.getHoursFlown().floatValue() : null;
         LocalDate employeeDate = pilotEntity.getEmployeeDate();
-        String status = pilotEntity.getStatus();
+        String status = pilotEntity.getIdPilotStatus();
         String homeBase = pilotEntity.getHomeBase();
         LocalDate lastMedicalCheck = pilotEntity.getLastMedicalCheck();
 

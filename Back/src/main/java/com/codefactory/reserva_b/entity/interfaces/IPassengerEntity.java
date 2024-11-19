@@ -1,5 +1,6 @@
 package com.codefactory.reserva_b.entity.interfaces;
 
+import com.codefactory.reserva_b.entity.impl.DocumentTypeEntityImpl;
 import com.codefactory.reserva_b.entity.impl.LuggageEntityImpl;
 import com.codefactory.reserva_b.entity.impl.SeatEntityImpl;
 
@@ -13,13 +14,14 @@ public interface IPassengerEntity {
     BigInteger getIdSeat();
     SeatEntityImpl getSeat();
     String getFirstName();
-    LocalDate getDateOfBirth();
     String getLastName();
+    LocalDate getDateOfBirth();
     String getDocumentId();
     String getPassportNumber();
     String getNationality();
-    String getSpecialRequests();
     Boolean getLuggageIncluded();
+    BigInteger getIdDocumentType();
+    DocumentTypeEntityImpl getDocumentType();
     List<LuggageEntityImpl> getLuggage();
 
     // Setters
@@ -27,12 +29,13 @@ public interface IPassengerEntity {
     void setIdSeat(BigInteger idSeat);
     void setSeat(SeatEntityImpl seat);
     void setFirstName(String firstName);
-    void setDateOfBirth(LocalDate dateOfBirth);
     void setLastName(String lastName);
+    void setDateOfBirth(LocalDate dateOfBirth);
     void setDocumentId(String documentId);
     void setPassportNumber(String passportNumber);
     void setNationality(String nationality);
-    void setSpecialRequests(String specialRequests);
     void setLuggageIncluded(Boolean luggageIncluded);
+    void setIdDocumentType(BigInteger idDocumentType);
+    void setDocumentType(DocumentTypeEntityImpl documentType);
     void setLuggage(List<LuggageEntityImpl> luggage);
 }

@@ -12,7 +12,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "booking")
 public class BookingEntityImpl implements IBookingEntity, IEntity, Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_booking", nullable = false)

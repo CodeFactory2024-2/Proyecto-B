@@ -9,7 +9,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "seat")
 public class SeatEntityImpl implements ISeatEntity, IEntity, Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_seat")
@@ -27,66 +26,88 @@ public class SeatEntityImpl implements ISeatEntity, IEntity, Serializable {
     @Column(name = "price", nullable = false)
     private Double price;
 
-    @Column(name = "seat_class", nullable = false)
-    private String seatClass;
+    @Column(name = "id_seat_class", nullable = false)
+    private BigInteger idSeatClass;
 
-    // Constructor
-    public SeatEntityImpl(BigInteger idFlight, String seatNumber, Boolean isReserved, Double price, String seatClass) {
+    @ManyToOne
+    @JoinColumn(name = "id_seat_class", nullable = false, insertable = false, updatable = false)
+    private SeatClassEntityImpl seatClass;
+
+    public SeatEntityImpl() {}
+
+    public SeatEntityImpl(BigInteger idFlight, String seatNumber, Boolean isReserved, Double price, BigInteger idSeatClass) {
         this.idFlight = idFlight;
         this.seatNumber = seatNumber;
         this.isReserved = isReserved;
         this.price = price;
-        this.seatClass = seatClass;
+        this.idSeatClass = idSeatClass;
     }
 
-    public SeatEntityImpl() {
-    }
-
+    @Override
     public BigInteger getIdSeat() {
         return idSeat;
     }
 
+    @Override
     public void setIdSeat(BigInteger idSeat) {
         this.idSeat = idSeat;
     }
 
+    @Override
     public BigInteger getIdFlight() {
         return idFlight;
     }
 
+    @Override
     public void setIdFlight(BigInteger idFlight) {
         this.idFlight = idFlight;
     }
 
+    @Override
     public String getSeatNumber() {
         return seatNumber;
     }
 
+    @Override
     public void setSeatNumber(String seatNumber) {
         this.seatNumber = seatNumber;
     }
 
-    public Boolean getReserved() {
+    public Boolean getIsReserved() {
         return isReserved;
     }
 
-    public void setReserved(Boolean reserved) {
+    public void setIsReserved(Boolean reserved) {
         isReserved = reserved;
     }
 
+    @Override
     public Double getPrice() {
         return price;
     }
 
+    @Override
     public void setPrice(Double price) {
         this.price = price;
     }
 
-    public String getSeatClass() {
+    @Override
+    public BigInteger getIdSeatClass() {
+        return idSeatClass;
+    }
+
+    @Override
+    public void setIdSeatClass(BigInteger idSeatClass) {
+        this.idSeatClass = idSeatClass;
+    }
+
+    @Override
+    public SeatClassEntityImpl getSeatClass() {
         return seatClass;
     }
 
-    public void setSeatClass(String seatClass) {
+    @Override
+    public void setSeatClass(SeatClassEntityImpl seatClass) {
         this.seatClass = seatClass;
     }
 
@@ -111,7 +132,8 @@ public class SeatEntityImpl implements ISeatEntity, IEntity, Serializable {
                 ", seatNumber='" + seatNumber + '\'' +
                 ", isReserved=" + isReserved +
                 ", price=" + price +
-                ", seatClass='" + seatClass + '\'' +
+                ", idSeatClass=" + idSeatClass +
+                ", seatClass=" + seatClass +
                 '}';
     }
 }

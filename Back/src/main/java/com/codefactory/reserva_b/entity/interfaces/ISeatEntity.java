@@ -1,5 +1,7 @@
 package com.codefactory.reserva_b.entity.interfaces;
 
+import com.codefactory.reserva_b.entity.impl.SeatClassEntityImpl;
+
 import java.math.BigInteger;
 
 public interface ISeatEntity {
@@ -7,15 +9,17 @@ public interface ISeatEntity {
     BigInteger getIdSeat();
     BigInteger getIdFlight();
     String getSeatNumber();
-    Boolean getReserved();
+    Boolean getIsReserved();
     Double getPrice();
-    String getSeatClass();
+    BigInteger getIdSeatClass();
+    SeatClassEntityImpl getSeatClass();
 
     // Setters
     void setIdSeat(BigInteger idSeat);
     void setIdFlight(BigInteger idFlight);
     void setSeatNumber(String seatNumber);
-    void setReserved(Boolean reserved);
+    void setIsReserved(Boolean isReserved);
     void setPrice(Double price);
-    void setSeatClass(String seatClass);
+    void setIdSeatClass(BigInteger idSeatClass);
+    void setSeatClass(SeatClassEntityImpl seatClass);
 }

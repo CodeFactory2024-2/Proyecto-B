@@ -1,5 +1,7 @@
 package com.codefactory.reserva_b.entity.interfaces;
 
+import com.codefactory.reserva_b.entity.impl.PilotStatusEntityImpl;
+
 import java.math.BigInteger;
 import java.time.LocalDate;
 
@@ -14,7 +16,8 @@ public interface IPilotEntity {
     String getRank();
     Double getHoursFlown();
     LocalDate getEmployeeDate();
-    String getStatus();
+    BigInteger getIdPilotStatus();
+    PilotStatusEntityImpl getPilotStatus();
     String getHomeBase();
     LocalDate getLastMedicalCheck();
 
@@ -28,7 +31,8 @@ public interface IPilotEntity {
     void setRank(String rank);
     void setHoursFlown(Double hoursFlown);
     void setEmployeeDate(LocalDate employeeDate);
-    void setStatus(String status);
+    void setIdPilotStatus(BigInteger idPilotStatus);
+    void setPilotStatus(PilotStatusEntityImpl pilotStatus);
     void setHomeBase(String homeBase);
     void setLastMedicalCheck(LocalDate lastMedicalCheck);
 }

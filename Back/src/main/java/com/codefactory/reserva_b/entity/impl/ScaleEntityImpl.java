@@ -13,7 +13,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "scale")
 public class ScaleEntityImpl implements IScaleEntity, IEntity, Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_scale")
@@ -38,7 +37,8 @@ public class ScaleEntityImpl implements IScaleEntity, IEntity, Serializable {
     @Column(name = "layover_duration", nullable = false)
     private LocalTime layoverDuration;
 
-    // Constructor
+    public ScaleEntityImpl() {}
+
     public ScaleEntityImpl(BigInteger idFlight, BigInteger idCity, LocalDateTime arrivalTime, LocalDateTime departureTime, LocalTime layoverDuration) {
         this.idFlight = idFlight;
         this.idCity = idCity;
@@ -47,61 +47,72 @@ public class ScaleEntityImpl implements IScaleEntity, IEntity, Serializable {
         this.layoverDuration = layoverDuration;
     }
 
-    public ScaleEntityImpl() {
-    }
-
+    @Override
     public BigInteger getIdScale() {
         return idScale;
     }
 
+    @Override
     public void setIdScale(BigInteger idScale) {
         this.idScale = idScale;
     }
 
+    @Override
     public BigInteger getIdFlight() {
         return idFlight;
     }
 
+    @Override
     public void setIdFlight(BigInteger idFlight) {
         this.idFlight = idFlight;
     }
 
-    public CityEntityImpl getCity() {
-        return city;
-    }
-
-    public void setCity(CityEntityImpl city) {
-        this.city = city;
-    }
-
+    @Override
     public BigInteger getIdCity() {
         return idCity;
     }
 
+    @Override
     public void setIdCity(BigInteger idCity) {
         this.idCity = idCity;
     }
 
+    @Override
+    public CityEntityImpl getCity() {
+        return city;
+    }
+
+    @Override
+    public void setCity(CityEntityImpl city) {
+        this.city = city;
+    }
+
+    @Override
     public LocalDateTime getArrivalTime() {
         return arrivalTime;
     }
 
+    @Override
     public void setArrivalTime(LocalDateTime arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 
+    @Override
     public LocalDateTime getDepartureTime() {
         return departureTime;
     }
 
+    @Override
     public void setDepartureTime(LocalDateTime departureTime) {
         this.departureTime = departureTime;
     }
 
+    @Override
     public LocalTime getLayoverDuration() {
         return layoverDuration;
     }
 
+    @Override
     public void setLayoverDuration(LocalTime layoverDuration) {
         this.layoverDuration = layoverDuration;
     }

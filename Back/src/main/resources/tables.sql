@@ -74,7 +74,7 @@ ALTER TABLE
 CREATE TABLE "luggage"(
                           "id_luggage" bigserial NOT NULL,
                           "id_passenger" BIGINT NOT NULL,
-                          "type" VARCHAR(255) NOT NULL,
+                          "id_luggage_type" BIGINT NOT NULL,
                           "height_cm" DECIMAL(8, 2) NOT NULL,
                           "weight_kg" DECIMAL(8, 2) NOT NULL,
                           "width_cm" DECIMAL(8, 2) NOT NULL,
@@ -252,6 +252,12 @@ CREATE TABLE "document_type"(
 );
 ALTER TABLE
     "document_type" ADD PRIMARY KEY("id_document_type");
+CREATE TABLE "luggage_type"(
+                                "id_luggage_type" bigserial NOT NULL,
+                                "name" VARCHAR(255) NOT NULL
+);
+ALTER TABLE
+    "luggage_type" ADD PRIMARY KEY("id_luggage_type");
 
 ALTER TABLE
     "booking_passenger" ADD CONSTRAINT "booking_passenger_id_booking_foreign" FOREIGN KEY("id_booking") REFERENCES "booking"("id_booking");
@@ -315,6 +321,8 @@ ALTER TABLE
     "passenger_special_request" ADD CONSTRAINT "passenger_special_request_id_passenger_foreign" FOREIGN KEY("id_passenger") REFERENCES "passenger"("id_passenger");
 ALTER TABLE
     "passenger_special_request" ADD CONSTRAINT "passenger_special_request_id_special_request_foreign" FOREIGN KEY("id_special_request") REFERENCES "special_request"("id_special_request");
+ALTER TABLE
+    "luggage" ADD CONSTRAINT "luggage_id_luggage_type_foreign" FOREIGN KEY("id_luggage_type") REFERENCES "luggage_type"("id_luggage_type");
 
 INSERT INTO country (name, continent, language) VALUES
     ('Estados Unidos', 'América del Norte', 'Inglés'),

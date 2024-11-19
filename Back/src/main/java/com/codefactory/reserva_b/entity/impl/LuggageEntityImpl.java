@@ -9,7 +9,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "luggage")
 public class LuggageEntityImpl implements ILuggageEntity, IEntity, Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_luggage")
@@ -18,8 +17,12 @@ public class LuggageEntityImpl implements ILuggageEntity, IEntity, Serializable 
     @Column(name = "id_passenger", nullable = false)
     private BigInteger idPassenger;
 
-    @Column(name = "type")
-    private String type;
+    @Column(name = "id_luggage_type")
+    private BigInteger idLuggageType;
+
+    @ManyToOne
+    @JoinColumn(name = "id_luggage_type", nullable = false, insertable = false, updatable = false)
+    private LuggageTypeEntityImpl luggageType;
 
     @Column(name = "height_cm", nullable = false)
     private Double heightCm;
@@ -33,71 +36,93 @@ public class LuggageEntityImpl implements ILuggageEntity, IEntity, Serializable 
     @Column(name = "extra_free")
     private Double extraFree;
 
-    // Constructor
-    public LuggageEntityImpl(BigInteger idPassenger, String type, Double heightCm, Double weightKg, Double widthCm, Double extraFree) {
+    public LuggageEntityImpl() {}
+
+    public LuggageEntityImpl(BigInteger idPassenger, BigInteger idLuggageType, Double heightCm, Double weightKg, Double widthCm, Double extraFree) {
         this.idPassenger = idPassenger;
-        this.type = type;
+        this.idLuggageType = idLuggageType;
         this.heightCm = heightCm;
         this.weightKg = weightKg;
         this.widthCm = widthCm;
         this.extraFree = extraFree;
     }
 
-    public LuggageEntityImpl() {
-    }
-
+    @Override
     public BigInteger getIdLuggage() {
         return idLuggage;
     }
 
+    @Override
     public void setIdLuggage(BigInteger idLuggage) {
         this.idLuggage = idLuggage;
     }
 
+    @Override
     public BigInteger getIdPassenger() {
         return idPassenger;
     }
 
+    @Override
     public void setIdPassenger(BigInteger idPassenger) {
         this.idPassenger = idPassenger;
     }
 
+    @Override
+    public BigInteger getIdLuggageType() {
+        return idLuggageType;
+    }
+
+    @Override
+    public void setIdLuggageType(BigInteger idLuggageType) {
+        this.idLuggageType = idLuggageType;
+    }
+
+    @Override
+    public LuggageTypeEntityImpl getLuggageType() {
+        return luggageType;
+    }
+
+    @Override
+    public void setLuggageType(LuggageTypeEntityImpl luggageType) {
+        this.luggageType = luggageType;
+    }
+
+    @Override
     public Double getHeightCm() {
         return heightCm;
     }
 
+    @Override
     public void setHeightCm(Double heightCm) {
         this.heightCm = heightCm;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
+    @Override
     public Double getWeightKg() {
         return weightKg;
     }
 
+    @Override
     public void setWeightKg(Double weightKg) {
         this.weightKg = weightKg;
     }
 
+    @Override
     public Double getWidthCm() {
         return widthCm;
     }
 
+    @Override
     public void setWidthCm(Double widthCm) {
         this.widthCm = widthCm;
     }
 
+    @Override
     public Double getExtraFree() {
         return extraFree;
     }
 
+    @Override
     public void setExtraFree(Double extraFree) {
         this.extraFree = extraFree;
     }
@@ -120,7 +145,8 @@ public class LuggageEntityImpl implements ILuggageEntity, IEntity, Serializable 
         return "LuggageEntityImpl{" +
                 "idLuggage=" + idLuggage +
                 ", idPassenger=" + idPassenger +
-                ", type='" + type + '\'' +
+                ", idLuggageType=" + idLuggageType +
+                ", luggageType=" + luggageType +
                 ", heightCm=" + heightCm +
                 ", weightKg=" + weightKg +
                 ", widthCm=" + widthCm +
