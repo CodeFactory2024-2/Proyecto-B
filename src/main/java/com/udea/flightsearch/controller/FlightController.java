@@ -59,15 +59,17 @@ public class FlightController {
         exceptionHandler(departureDate,
                         arrivalDate,
                         passengerAmount,
+                        scaleAmount,
                         minimumPrice,
                         maximumPrice,
                         minimumDate,
                         maximumDate,
+                        maxFlightHours,
                         minimumTime,
                         maximumTime,
                         timeFormatter);
         if (scaleAmount == null) {
-            scaleAmount = 0;
+            scaleAmount = 10;
         }
         if (minimumTime == null) {
             minimumTime = "0:00";
@@ -133,6 +135,8 @@ public class FlightController {
         exceptionHandler(departureDate,
                         arrivalDate,
                         passengerAmount,
+                        10,
+                        null,
                         null,
                         null,
                         null,
@@ -152,16 +156,24 @@ public class FlightController {
                               LocalDate departureDate,
                               LocalDate arrivalDate,
                               Integer passengerAmount,
+                              Integer scaleAmount,
                               Double minimumPrice,
                               Double maximumPrice,
                               LocalDate minimumDate,
                               LocalDate maximumDate,
+                              Integer maxFlightHours,
                               String minimumTime,
                               String maximumTime,
                               DateTimeFormatter timeFormatter) {
         // Checks if the number of passengers is 0 or null
         if (passengerAmount == null || passengerAmount == 0) {
             throw new RuntimeException("Debe seleccionar al menos un pasajero");
+        }
+        if (scaleAmount != null && scaleAmount < 0) {
+            throw new RuntimeException("La cantidad de escalas debe ser superior o igual a 0");
+        }
+        if (maxFlightHours != null && maxFlightHours < 0) {
+            throw new RuntimeException("La cantidad de horas de vuelo maximas debe ser superior o igual a 0");
         }
         // Checks if the number of passengers is above 8
         if (passengerAmount > 8) {

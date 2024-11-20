@@ -123,25 +123,17 @@ public class FlightSpecification {
 
                 Join<Flight, Plane> planeJoin = root.join("plane");   // Flight -> Plane
 
-                System.out.println("searchBaggage: " + searchBaggage);
-                System.out.println("get(0): " + searchBaggage.get(0));
-                System.out.println("get(1): " + searchBaggage.get(1));
-                System.out.println("get(2): " + searchBaggage.get(2));
-
                 if (searchBaggage.get(0) != null && searchBaggage.get(0)) {
-                    System.out.println("get(0): " + searchBaggage.get(0));
                     baggagePredicate.add(criteriaBuilder.isTrue(planeJoin.get("allowsPersonalItem")));
                 } else {
                     baggagePredicate.add(criteriaBuilder.isFalse(planeJoin.get("allowsPersonalItem")));
                 }
                 if (searchBaggage.get(1) != null && searchBaggage.get(1)) {
-                    System.out.println("get(1): " + searchBaggage.get(1));
                     baggagePredicate.add(criteriaBuilder.isTrue(planeJoin.get("allowsCarryOn")));
                 } else {
                     baggagePredicate.add(criteriaBuilder.isFalse(planeJoin.get("allowsCarryOn")));
                 }
                 if (searchBaggage.get(2) != null && searchBaggage.get(2)) {
-                    System.out.println("get(2): " + searchBaggage.get(2));
                     baggagePredicate.add(criteriaBuilder.isTrue(planeJoin.get("allowsChecked")));
                 } else {
                     baggagePredicate.add(criteriaBuilder.isFalse(planeJoin.get("allowsChecked")));
