@@ -488,3 +488,31 @@ INSERT INTO seat (id_flight, seat_number, is_reserved, price, id_seat_class) VAL
      (3, '5B', FALSE, 100.00, 1),
      (3, '2A', FALSE, 200.00, 2),
      (3, '2B', FALSE, 200.00, 2);
+
+INSERT INTO "luggage_type" ("name") VALUES
+        ('Carry-on'),
+        ('Checked baggage'),
+        ('Duffel bag'),
+        ('Backpack'),
+        ('Suitcase'),
+        ('Garment bag'),
+        ('Tote bag'),
+        ('Hard-shell case'),
+        ('Soft-shell case'),
+        ('Personal item');
+
+INSERT INTO "payment_method" ("name", "description") VALUES
+         ('Credit Card', 'Payment made using a credit card'),
+         ('Debit Card', 'Payment made using a debit card'),
+         ('PayPal', 'Payment made via PayPal platform'),
+         ('Bank Transfer', 'Payment made directly through a bank transfer'),
+         ('Cash', 'Payment made using physical currency'),
+         ('Cryptocurrency', 'Payment made using digital currencies like Bitcoin or Ethereum');
+
+INSERT INTO "payment_status" ("name", "description") VALUES
+         ('Pending', 'Payment has been initiated but is not yet complete'),
+         ('Completed', 'Payment has been successfully processed'),
+         ('Failed', 'Payment attempt was unsuccessful'),
+         ('Refunded', 'Payment has been returned to the payer'),
+         ('Cancelled', 'Payment was cancelled by the user or the system'),
+         ('In Process', 'Payment is currently being processed');
