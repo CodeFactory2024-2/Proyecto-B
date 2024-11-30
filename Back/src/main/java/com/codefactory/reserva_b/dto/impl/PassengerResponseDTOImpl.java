@@ -15,14 +15,16 @@ public class PassengerResponseDTOImpl implements IPassengerResponseDTO {
     private final String documentId;
     private final String passportNumber;
     private final String nationality;
-    private final String specialRequests;
+    private final Long idDocumentType;
+    private final DocumentTypeResponseDTOImpl documentType;
     private final Boolean luggageIncluded;
     private final List<LuggageResponseDTOImpl> luggage;
+    private final List<SpecialRequestResponseDTOImpl> specialRequest;
 
     public PassengerResponseDTOImpl(Long idPassenger, Long idSeat, SeatResponseDTOImpl seat, String firstName,
                                     String lastName, String dateOfBirth, String documentId, String passportNumber,
-                                    String nationality, String specialRequests, Boolean luggageIncluded,
-                                    List<LuggageResponseDTOImpl> luggage) {
+                                    String nationality, Long idDocumentType, DocumentTypeResponseDTOImpl documentType,
+                                    Boolean luggageIncluded, List<LuggageResponseDTOImpl> luggage, List<SpecialRequestResponseDTOImpl> specialRequest) {
         this.idPassenger = idPassenger;
         this.idSeat = idSeat;
         this.seat = seat;
@@ -32,9 +34,11 @@ public class PassengerResponseDTOImpl implements IPassengerResponseDTO {
         this.documentId = documentId;
         this.passportNumber = passportNumber;
         this.nationality = nationality;
-        this.specialRequests = specialRequests;
+        this.idDocumentType = idDocumentType;
+        this.documentType = documentType;
         this.luggageIncluded = luggageIncluded;
         this.luggage = luggage;
+        this.specialRequest = specialRequest;
     }
 
     @Override
@@ -83,9 +87,10 @@ public class PassengerResponseDTOImpl implements IPassengerResponseDTO {
     }
 
     @Override
-    public String getSpecialRequests() {
-        return specialRequests;
-    }
+    public Long getIdDocumentType() {return idDocumentType;}
+
+    @Override
+    public DocumentTypeResponseDTOImpl getDocumentType() { return documentType; }
 
     @Override
     public Boolean getLuggageIncluded() {
@@ -95,5 +100,10 @@ public class PassengerResponseDTOImpl implements IPassengerResponseDTO {
     @Override
     public List<LuggageResponseDTOImpl> getLuggage() {
         return luggage;
+    }
+
+    @Override
+    public List<SpecialRequestResponseDTOImpl> getSpecialRequest() {
+        return specialRequest;
     }
 }

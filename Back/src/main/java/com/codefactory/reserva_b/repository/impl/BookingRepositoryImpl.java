@@ -61,7 +61,7 @@ public class BookingRepositoryImpl implements IBookingRepository  {
                 .setParameter(1, booking.getIdFlight())
                 .setParameter(2, booking.getIdUser())
                 .setParameter(3, LocalDateTime.now())
-                .setParameter(4, booking.getBookingStatus())
+                .setParameter(4, booking.getIdBookingStatus())
                 .getSingleResult();
 
         if (booking.getPassengers() != null && !booking.getPassengers().isEmpty()) {
@@ -74,8 +74,8 @@ public class BookingRepositoryImpl implements IBookingRepository  {
                         .setParameter(5, passenger.getDocumentId())
                         .setParameter(6, passenger.getPassportNumber())
                         .setParameter(7, passenger.getNationality())
-                        .setParameter(8, passenger.getSpecialRequests())
-                        .setParameter(9, passenger.getLuggageIncluded())
+                        .setParameter(8, passenger.getLuggageIncluded())
+                        .setParameter(9, passenger.getIdDocumentType())
                         .getSingleResult();
                 entityManager.createNativeQuery(sentences.insertBookingPassengerSentence())
                         .setParameter(1, bookingId)
@@ -89,7 +89,7 @@ public class BookingRepositoryImpl implements IBookingRepository  {
                     for (ILuggageRequestDTO luggage : passenger.getLuggage()) {
                         LuggageEntityImpl newLuggage = (LuggageEntityImpl) entityManager.createNativeQuery(sentences.insertLuggageSentence(), LuggageEntityImpl.class)
                                 .setParameter(1, passengerId)
-                                .setParameter(2, luggage.getType())
+                                .setParameter(2, luggage.getIdLuggageType())
                                 .setParameter(3, luggage.getHeightCm())
                                 .setParameter(4, luggage.getWeightKg())
                                 .setParameter(5, luggage.getWidthCm())

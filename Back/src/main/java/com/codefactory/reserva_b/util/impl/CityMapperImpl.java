@@ -22,7 +22,7 @@ public class CityMapperImpl implements ICityMapper {
 
         Long idCity = cityEntity.getIdCity().longValue();
         String name = cityEntity.getName();
-        Long countryId = cityEntity.getCountryId() != null ? cityEntity.getCountryId().longValue() : null;
+        Long countryId = cityEntity.getIdCountry() != null ? cityEntity.getIdCountry().longValue() : null;
         CountryResponseDTOImpl country = cityEntity.getCountry() != null ?
                 countryMapper.mapCountryEntityToCountryResponseDTO(cityEntity.getCountry()) : null;
         String timezone = cityEntity.getTimezone();

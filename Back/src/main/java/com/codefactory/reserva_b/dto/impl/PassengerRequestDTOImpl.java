@@ -12,13 +12,13 @@ public class PassengerRequestDTOImpl implements IPassengerRequestDTO {
     private final String documentId;
     private final String passportNumber;
     private final String nationality;
-    private final String specialRequests;
+    private final Long idDocumentType;
     private final Boolean luggageIncluded;
     private final List<LuggageRequestDTOImpl> luggage;
 
     public PassengerRequestDTOImpl(Long idSeat, String firstName, String lastName, String dateOfBirth,
                                    String documentId, String passportNumber, String nationality,
-                                   String specialRequests, Boolean luggageIncluded,
+                                   Long idDocumentType, Boolean luggageIncluded,
                                    List<LuggageRequestDTOImpl> luggage) {
         this.idSeat = idSeat;
         this.firstName = firstName;
@@ -27,7 +27,7 @@ public class PassengerRequestDTOImpl implements IPassengerRequestDTO {
         this.documentId = documentId;
         this.passportNumber = passportNumber;
         this.nationality = nationality;
-        this.specialRequests = specialRequests;
+        this.idDocumentType = idDocumentType;
         this.luggageIncluded = luggageIncluded;
         this.luggage = luggage;
     }
@@ -68,8 +68,8 @@ public class PassengerRequestDTOImpl implements IPassengerRequestDTO {
     }
 
     @Override
-    public String getSpecialRequests() {
-        return specialRequests;
+    public Long getIdDocumentType() {
+        return idDocumentType;
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.codefactory.reserva_b.dto.impl;
 
 import com.codefactory.reserva_b.dto.interfaces.IUsersResponseDTO;
 
+import java.util.List;
+
 public class UsersResponseDTOImpl implements IUsersResponseDTO {
     private final Long idUser;
     private final String firstName;
@@ -15,12 +17,17 @@ public class UsersResponseDTOImpl implements IUsersResponseDTO {
     private final String registrationDate;
     private final Integer flyerNumber;
     private final String address;
-    private final String userType;
+    private final Long idUsersType;
+    private final UsersTypeResponseDTOImpl usersType;
+    private final Long idDocumentType;
+    private final DocumentTypeResponseDTOImpl documentType;
+    private final List<RoleResponseDTOImpl> roles;
 
     public UsersResponseDTOImpl(Long idUser, String firstName, String lastName, String phoneNumber,
                                 String email, String nationality, String dateOfBirth, String documentId,
                                 String passportNumber, String registrationDate, Integer flyerNumber,
-                                String address, String userType) {
+                                String address, Long idUsersType, UsersTypeResponseDTOImpl usersType,
+                                Long idDocumentType, DocumentTypeResponseDTOImpl documentType, List<RoleResponseDTOImpl> roles) {
         this.idUser = idUser;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -33,7 +40,11 @@ public class UsersResponseDTOImpl implements IUsersResponseDTO {
         this.registrationDate = registrationDate;
         this.flyerNumber = flyerNumber;
         this.address = address;
-        this.userType = userType;
+        this.idUsersType = idUsersType;
+        this.usersType = usersType;
+        this.idDocumentType = idDocumentType;
+        this.documentType = documentType;
+        this.roles = roles;
     }
 
     @Override
@@ -97,7 +108,21 @@ public class UsersResponseDTOImpl implements IUsersResponseDTO {
     }
 
     @Override
-    public String getUserType() {
-        return userType;
+    public Long getIdUsersType() {return idUsersType; }
+
+    @Override
+    public UsersTypeResponseDTOImpl getUsersType() {
+        return usersType;
+    }
+
+    @Override
+    public Long getIdDocumentType() {return idDocumentType; }
+
+    @Override
+    public DocumentTypeResponseDTOImpl getDocumentType() {return documentType; }
+
+    @Override
+    public List<RoleResponseDTOImpl> getRoles() {
+        return roles;
     }
 }

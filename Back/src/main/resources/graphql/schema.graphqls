@@ -23,6 +23,7 @@ type Mutation {
     editLuggage(idLuggage: ID!, luggage: LuggageInput): Luggage
     addLuggage(luggage: LuggageInput): Luggage
     deleteLuggage(idPassenger: ID!, idLuggage: ID!): Passenger
+    addSpecialRequest(idPassenger: ID!, idSpecialRequest: ID!): Passenger
 }
 
 #RESPONSE TYPES
@@ -246,7 +247,7 @@ type Users {
     flyerNumber: Int!
     address: String
     idUsersType: ID!
-    UsersType: UsersType!
+    usersType: UsersType!
     idDocumentType: ID!
     documentType: DocumentType!
 }

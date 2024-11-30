@@ -1,5 +1,7 @@
 package com.codefactory.reserva_b.dto.interfaces;
 
+import com.codefactory.reserva_b.dto.impl.PilotStatusResponseDTOImpl;
+
 import java.time.LocalDate;
 
 public interface IPilotResponseDTO {
@@ -12,7 +14,8 @@ public interface IPilotResponseDTO {
     String getRank();
     Float getHoursFlown();
     LocalDate getEmployeeDate();
-    String getStatus();
+    Long getIdPilotStatus();
+    PilotStatusResponseDTOImpl getPilotStatus();
     String getHomeBase();
     LocalDate getLastMedicalCheck();
 }

@@ -2,11 +2,14 @@ package com.codefactory.reserva_b.util.impl;
 
 import com.codefactory.reserva_b.dto.impl.BookingResponseDTOImpl;
 import com.codefactory.reserva_b.dto.impl.LuggageResponseDTOImpl;
+import com.codefactory.reserva_b.dto.impl.LuggageTypeResponseDTOImpl;
 import com.codefactory.reserva_b.dto.interfaces.ILuggageResponseDTO;
 import com.codefactory.reserva_b.entity.impl.BookingEntityImpl;
 import com.codefactory.reserva_b.entity.impl.LuggageEntityImpl;
 import com.codefactory.reserva_b.entity.interfaces.ILuggageEntity;
 import com.codefactory.reserva_b.util.interfaces.ILuggageMapper;
+import com.codefactory.reserva_b.util.interfaces.ILuggageTypeMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,6 +17,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class LuggageMapperImpl implements ILuggageMapper {
+    @Autowired
+    private ILuggageTypeMapper luggageTypeMapper;
     @Override
     public LuggageResponseDTOImpl mapLuggageEntityToLuggageResponseDTO(ILuggageEntity luggageEntity) {
         if (luggageEntity == null) {
@@ -22,16 +27,18 @@ public class LuggageMapperImpl implements ILuggageMapper {
 
         Long idLuggage = luggageEntity.getIdLuggage().longValue();
         Long idPassenger = luggageEntity.getIdPassenger().longValue();
-        String type = luggageEntity.getType();
+        Long idLuggageType = luggageEntity.getIdLuggageType().longValue();
         Float heightCm = luggageEntity.getHeightCm() != null ? luggageEntity.getHeightCm().floatValue() : null;
         Float weightKg = luggageEntity.getWeightKg() != null ? luggageEntity.getWeightKg().floatValue() : null;
         Float widthCm = luggageEntity.getWidthCm() != null ? luggageEntity.getWidthCm().floatValue() : null;
         Float extraFree = luggageEntity.getExtraFree() != null ? luggageEntity.getExtraFree().floatValue() : null;
-
+        LuggageTypeResponseDTOImpl luggageType = luggageEntity.getLuggageType() != null ?
+                luggageTypeMapper.mapLuggageTypeEntityToLuggageTypeResponseDTO(luggageEntity.getLuggageType()) : null;;
         return new LuggageResponseDTOImpl(
                 idLuggage,
                 idPassenger,
-                type,
+                idLuggageType,
+                luggageType,
                 heightCm,
                 weightKg,
                 widthCm,

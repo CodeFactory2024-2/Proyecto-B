@@ -12,7 +12,7 @@ public interface IPassengerRequestDTO {
     String getDocumentId();
     String getPassportNumber();
     String getNationality();
-    String getSpecialRequests();
+    Long getIdDocumentType();
     Boolean getLuggageIncluded();
     List<LuggageRequestDTOImpl> getLuggage();
 }

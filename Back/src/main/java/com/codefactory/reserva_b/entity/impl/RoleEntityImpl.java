@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -21,6 +22,10 @@ public class RoleEntityImpl implements IRoleEntity, IEntity, Serializable {
 
     @Column(name = "description", nullable = false)
     private String description;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinTable(name = "role_permission", joinColumns = @JoinColumn(name = "id_role"), inverseJoinColumns = @JoinColumn(name = "id_permission"))
+    private List<PermissionEntityImpl> permissions;
 
     public RoleEntityImpl() {}
 
@@ -57,6 +62,14 @@ public class RoleEntityImpl implements IRoleEntity, IEntity, Serializable {
     @Override
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<PermissionEntityImpl> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<PermissionEntityImpl> permissions) {
+        this.permissions = permissions;
     }
 
     @Override

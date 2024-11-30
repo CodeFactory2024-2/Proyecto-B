@@ -8,15 +8,17 @@ public class SeatResponseDTOImpl implements ISeatResponseDTO {
     private final String seatNumber;
     private final Boolean isReserved;
     private final Float price;
-    private final String seatClass;
+    private final Long idSeatClass;
+    private final SeatClassResponseDTOImpl seatClass;
 
     public SeatResponseDTOImpl(Long idSeat, Long idFlight, String seatNumber, Boolean isReserved,
-                               Float price, String seatClass) {
+                               Float price, Long idSeatClass, SeatClassResponseDTOImpl seatClass) {
         this.idSeat = idSeat;
         this.idFlight = idFlight;
         this.seatNumber = seatNumber;
         this.isReserved = isReserved;
         this.price = price;
+        this.idSeatClass = idSeatClass;
         this.seatClass = seatClass;
     }
 
@@ -46,7 +48,12 @@ public class SeatResponseDTOImpl implements ISeatResponseDTO {
     }
 
     @Override
-    public String getSeatClass() {
+    public Long getIdSeatClass() {
+        return idSeatClass;
+    }
+
+    @Override
+    public SeatClassResponseDTOImpl getSeatClass() {
         return seatClass;
     }
 }

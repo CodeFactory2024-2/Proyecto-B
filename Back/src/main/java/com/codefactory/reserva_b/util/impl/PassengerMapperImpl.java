@@ -1,16 +1,12 @@
 package com.codefactory.reserva_b.util.impl;
 
-import com.codefactory.reserva_b.dto.impl.LuggageResponseDTOImpl;
-import com.codefactory.reserva_b.dto.impl.PassengerResponseDTOImpl;
-import com.codefactory.reserva_b.dto.impl.SeatResponseDTOImpl;
+import com.codefactory.reserva_b.dto.impl.*;
 import com.codefactory.reserva_b.dto.interfaces.ILuggageResponseDTO;
 import com.codefactory.reserva_b.dto.interfaces.IPassengerResponseDTO;
 import com.codefactory.reserva_b.dto.interfaces.ISeatResponseDTO;
 import com.codefactory.reserva_b.entity.impl.PassengerEntityImpl;
 import com.codefactory.reserva_b.entity.interfaces.IPassengerEntity;
-import com.codefactory.reserva_b.util.interfaces.ILuggageMapper;
-import com.codefactory.reserva_b.util.interfaces.IPassengerMapper;
-import com.codefactory.reserva_b.util.interfaces.ISeatMapper;
+import com.codefactory.reserva_b.util.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +19,10 @@ public class PassengerMapperImpl implements IPassengerMapper {
     private ISeatMapper seatMapper;
     @Autowired
     private ILuggageMapper luggageMapper;
-
+    @Autowired
+    private IDocumentTypeMapper documentTypeMapper;
+    @Autowired
+    private ISpecialRequestMapper specialRequestMapper;
     @Override
     public PassengerResponseDTOImpl mapPassengerEntityToPassengerResponseDTO(IPassengerEntity passengerEntity) {
         if (passengerEntity == null) {
@@ -32,19 +31,22 @@ public class PassengerMapperImpl implements IPassengerMapper {
 
         Long idPassenger = passengerEntity.getIdPassenger().longValue();
         Long idSeat = passengerEntity.getIdSeat().longValue();
-        SeatResponseDTOImpl seat = passengerEntity.getSeat() != null ?
-                seatMapper.mapSeatEntityToSeatResponseDTO(passengerEntity.getSeat()) : null;
         String firstName = passengerEntity.getFirstName();
         String lastName = passengerEntity.getLastName();
         String dateOfBirth = passengerEntity.getDateOfBirth().toString();
         String documentId = passengerEntity.getDocumentId();
         String passportNumber = passengerEntity.getPassportNumber();
         String nationality = passengerEntity.getNationality();
-        String specialRequests = passengerEntity.getSpecialRequests();
         Boolean luggageIncluded = passengerEntity.getLuggageIncluded();
+        Long idDocumentType = passengerEntity.getIdDocumentType().longValue();
+        DocumentTypeResponseDTOImpl documentType = passengerEntity.getDocumentType() != null ?
+                documentTypeMapper.mapDocumentTypeEntityToDocumentTypeResponseDTO(passengerEntity.getDocumentType()) : null;
+        SeatResponseDTOImpl seat = passengerEntity.getSeat() != null ?
+                seatMapper.mapSeatEntityToSeatResponseDTO(passengerEntity.getSeat()) : null;
         List<LuggageResponseDTOImpl> luggage = passengerEntity.getLuggage() != null ?
                 luggageMapper.mapLuggageEntitiesToLuggageResponseDTOs(passengerEntity.getLuggage()) : null;
-
+        List<SpecialRequestResponseDTOImpl> specialRequests = passengerEntity.getSpecialRequests() != null ?
+                specialRequestMapper.mapSpecialRequestEntitiesToSpecialRequestResponseDTOs(passengerEntity.getSpecialRequests()) : null;
         return new PassengerResponseDTOImpl(
                 idPassenger,
                 idSeat,
@@ -55,9 +57,11 @@ public class PassengerMapperImpl implements IPassengerMapper {
                 documentId,
                 passportNumber,
                 nationality,
-                specialRequests,
+                idDocumentType,
+                documentType,
                 luggageIncluded,
-                luggage
+                luggage,
+                specialRequests
         );
     }
 

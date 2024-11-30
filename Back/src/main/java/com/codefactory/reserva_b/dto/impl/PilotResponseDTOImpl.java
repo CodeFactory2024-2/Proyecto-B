@@ -14,13 +14,15 @@ public class PilotResponseDTOImpl implements IPilotResponseDTO {
     private final String rank;
     private final Float hoursFlown;
     private final LocalDate employeeDate;
-    private final String status;
+    private final Long idPilotStatus;
+    private final PilotStatusResponseDTOImpl pilotStatus;
     private final String homeBase;
     private final LocalDate lastMedicalCheck;
 
     public PilotResponseDTOImpl(Long idPilot, String firstName, String lastName, String licenseNumber,
                                 LocalDate dateOfBirth, String nationality, String rank, Float hoursFlown,
-                                LocalDate employeeDate, String status, String homeBase, LocalDate lastMedicalCheck) {
+                                LocalDate employeeDate, Long idPilotStatus, PilotStatusResponseDTOImpl pilotStatus,
+                                String homeBase, LocalDate lastMedicalCheck) {
         this.idPilot = idPilot;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -30,7 +32,8 @@ public class PilotResponseDTOImpl implements IPilotResponseDTO {
         this.rank = rank;
         this.hoursFlown = hoursFlown;
         this.employeeDate = employeeDate;
-        this.status = status;
+        this.idPilotStatus = idPilotStatus;
+        this.pilotStatus = pilotStatus;
         this.homeBase = homeBase;
         this.lastMedicalCheck = lastMedicalCheck;
     }
@@ -81,9 +84,12 @@ public class PilotResponseDTOImpl implements IPilotResponseDTO {
     }
 
     @Override
-    public String getStatus() {
-        return status;
+    public Long getIdPilotStatus() {
+        return idPilotStatus;
     }
+
+    @Override
+    public PilotStatusResponseDTOImpl getPilotStatus() {return pilotStatus; }
 
     @Override
     public String getHomeBase() {

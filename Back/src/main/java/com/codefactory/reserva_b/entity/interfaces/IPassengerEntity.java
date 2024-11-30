@@ -3,6 +3,7 @@ package com.codefactory.reserva_b.entity.interfaces;
 import com.codefactory.reserva_b.entity.impl.DocumentTypeEntityImpl;
 import com.codefactory.reserva_b.entity.impl.LuggageEntityImpl;
 import com.codefactory.reserva_b.entity.impl.SeatEntityImpl;
+import com.codefactory.reserva_b.entity.impl.SpecialRequestEntityImpl;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
@@ -23,6 +24,7 @@ public interface IPassengerEntity {
     BigInteger getIdDocumentType();
     DocumentTypeEntityImpl getDocumentType();
     List<LuggageEntityImpl> getLuggage();
+    List<SpecialRequestEntityImpl> getSpecialRequests();
 
     // Setters
     void setIdPassenger(BigInteger idPassenger);
@@ -38,4 +40,5 @@ public interface IPassengerEntity {
     void setIdDocumentType(BigInteger idDocumentType);
     void setDocumentType(DocumentTypeEntityImpl documentType);
     void setLuggage(List<LuggageEntityImpl> luggage);
+    void setSpecialRequests(List<SpecialRequestEntityImpl> specialRequests);
 }

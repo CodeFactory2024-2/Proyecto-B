@@ -3,6 +3,7 @@ package com.codefactory.reserva_b.dto.impl;
 import com.codefactory.reserva_b.dto.interfaces.IFlightResponseDTO;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class FlightResponseDTOImpl implements IFlightResponseDTO {
     private final Long idFlight;
@@ -15,7 +16,8 @@ public class FlightResponseDTOImpl implements IFlightResponseDTO {
     private final CityResponseDTOImpl arrivalCity;
     private final LocalDateTime departureTime;
     private final LocalDateTime arrivalTime;
-    private final String status;
+    private final Long idFlightStatus;
+    private final FlightStatusResponseDTOImpl flightStatus;
     private final String flightDuration;
     private final Float distanceKm;
     private final Integer seats;
@@ -26,14 +28,15 @@ public class FlightResponseDTOImpl implements IFlightResponseDTO {
     private final Float priceEconomy;
     private final Float priceBusiness;
     private final Float priceFirstClass;
+    private final List<ScaleResponseDTOImpl> scales;
 
     public FlightResponseDTOImpl(Long idFlight, String flightNumber, Long idPlane, PlaneResponseDTOImpl plane,
                                  Long idDepartureCity, CityResponseDTOImpl departureCity, Long idArrivalCity,
                                  CityResponseDTOImpl arrivalCity, LocalDateTime departureTime, LocalDateTime arrivalTime,
-                                 String status, String flightDuration, Float distanceKm, Integer seats,
-                                 Long idCaptain, PilotResponseDTOImpl captain, Long idSubCaptain,
-                                 PilotResponseDTOImpl subCaptain, Float priceEconomy, Float priceBusiness,
-                                 Float priceFirstClass) {
+                                 Long idFlightStatus, FlightStatusResponseDTOImpl flightStatus, String flightDuration,
+                                 Float distanceKm, Integer seats, Long idCaptain, PilotResponseDTOImpl captain,
+                                 Long idSubCaptain, PilotResponseDTOImpl subCaptain, Float priceEconomy, Float priceBusiness,
+                                 Float priceFirstClass, List<ScaleResponseDTOImpl> scales) {
         this.idFlight = idFlight;
         this.flightNumber = flightNumber;
         this.idPlane = idPlane;
@@ -44,7 +47,8 @@ public class FlightResponseDTOImpl implements IFlightResponseDTO {
         this.arrivalCity = arrivalCity;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
-        this.status = status;
+        this.idFlightStatus = idFlightStatus; // Inicialización
+        this.flightStatus = flightStatus; // Inicialización
         this.flightDuration = flightDuration;
         this.distanceKm = distanceKm;
         this.seats = seats;
@@ -55,6 +59,7 @@ public class FlightResponseDTOImpl implements IFlightResponseDTO {
         this.priceEconomy = priceEconomy;
         this.priceBusiness = priceBusiness;
         this.priceFirstClass = priceFirstClass;
+        this.scales = scales;
     }
 
     @Override
@@ -108,8 +113,13 @@ public class FlightResponseDTOImpl implements IFlightResponseDTO {
     }
 
     @Override
-    public String getStatus() {
-        return status;
+    public Long getIdFlightStatus() {
+        return idFlightStatus;
+    }
+
+    @Override
+    public FlightStatusResponseDTOImpl getFlightStatus() {
+        return flightStatus;
     }
 
     @Override
@@ -160,5 +170,9 @@ public class FlightResponseDTOImpl implements IFlightResponseDTO {
     @Override
     public Float getPriceFirstClass() {
         return priceFirstClass;
+    }
+
+    public List<ScaleResponseDTOImpl> getScales() {
+        return scales;
     }
 }

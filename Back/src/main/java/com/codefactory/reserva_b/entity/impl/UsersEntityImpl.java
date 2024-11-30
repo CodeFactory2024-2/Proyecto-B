@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -66,6 +67,10 @@ public class UsersEntityImpl implements IUsersEntity, IEntity, Serializable {
 
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinTable(name = "users_role", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_role"))
+    private List<RoleEntityImpl> roles;
 
     public UsersEntityImpl() {}
 
@@ -246,6 +251,14 @@ public class UsersEntityImpl implements IUsersEntity, IEntity, Serializable {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
+    }
+
+    public List<RoleEntityImpl> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RoleEntityImpl> roles) {
+        this.roles = roles;
     }
 
     @Override

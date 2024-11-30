@@ -1,18 +1,13 @@
 package com.codefactory.reserva_b.util.impl;
 
-import com.codefactory.reserva_b.dto.impl.CityResponseDTOImpl;
-import com.codefactory.reserva_b.dto.impl.FlightResponseDTOImpl;
-import com.codefactory.reserva_b.dto.impl.PilotResponseDTOImpl;
-import com.codefactory.reserva_b.dto.impl.PlaneResponseDTOImpl;
+import com.codefactory.reserva_b.dto.impl.*;
 import com.codefactory.reserva_b.dto.interfaces.ICityResponseDTO;
 import com.codefactory.reserva_b.dto.interfaces.IPilotResponseDTO;
 import com.codefactory.reserva_b.dto.interfaces.IPlaneResponseDTO;
 import com.codefactory.reserva_b.entity.impl.FlightEntityImpl;
+import com.codefactory.reserva_b.entity.impl.FlightStatusEntityImpl;
 import com.codefactory.reserva_b.entity.interfaces.IFlightEntity;
-import com.codefactory.reserva_b.util.interfaces.ICityMapper;
-import com.codefactory.reserva_b.util.interfaces.IFlightMapper;
-import com.codefactory.reserva_b.util.interfaces.IPilotMapper;
-import com.codefactory.reserva_b.util.interfaces.IPlaneMapper;
+import com.codefactory.reserva_b.util.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +23,10 @@ public class FlightMapperImpl implements IFlightMapper {
     private ICityMapper cityMapper;
     @Autowired
     private IPilotMapper pilotMapper;
+    @Autowired
+    private IFlightStatusMapper flightStatusMapper;
+    @Autowired
+    private IScaleMapper scaleMapper;
     @Override
     public FlightResponseDTOImpl mapFlightEntityToFlightResponseDTO(IFlightEntity flightEntity) {
         if (flightEntity == null) {
@@ -40,7 +39,7 @@ public class FlightMapperImpl implements IFlightMapper {
         Long idArrivalCity = flightEntity.getIdArrivalCity().longValue();
         LocalDateTime departureTime = flightEntity.getDepartureTime();
         LocalDateTime arrivalTime = flightEntity.getArrivalTime();
-        String status = flightEntity.getStatus();
+        Long idFlightStatus = flightEntity.getIdFlightStatus().longValue();
         String flightDuration = flightEntity.getFlightDuration();
         Float distanceKm = flightEntity.getDistanceKm().floatValue();
         Integer seats = flightEntity.getSeats();
@@ -49,6 +48,10 @@ public class FlightMapperImpl implements IFlightMapper {
         Float priceEconomy = flightEntity.getPriceEconomy().floatValue();
         Float priceBusiness = flightEntity.getPriceBusiness().floatValue();
         Float priceFirstClass = flightEntity.getPriceFirstClass().floatValue();
+
+        FlightStatusResponseDTOImpl flightStatus = flightEntity.getFlightStatus() != null ?
+                flightStatusMapper.mapFlightStatusEntityToFlightStatusResponseDTO(flightEntity.getFlightStatus()) : null;
+
         PlaneResponseDTOImpl plane = flightEntity.getPlane() != null ?
                 planeMapper.mapPlaneEntityToPlaneResponseDTO(flightEntity.getPlane()) : null;
 
@@ -63,6 +66,9 @@ public class FlightMapperImpl implements IFlightMapper {
 
         PilotResponseDTOImpl subCaptain = flightEntity.getSubCaptain() != null ?
                 pilotMapper.mapPilotEntityToPilotResponseDTO(flightEntity.getSubCaptain()) : null;
+
+        List<ScaleResponseDTOImpl> scales = flightEntity.getScales() != null ?
+                scaleMapper.mapScaleEntitiesToScaleResponseDTOs(flightEntity.getScales()) : null;
         
         return new FlightResponseDTOImpl(
                 idFlight,
@@ -75,7 +81,8 @@ public class FlightMapperImpl implements IFlightMapper {
                 arrivalCity,
                 departureTime,
                 arrivalTime,
-                status,
+                idFlightStatus,
+                flightStatus,
                 flightDuration,
                 distanceKm,
                 seats,
@@ -85,7 +92,8 @@ public class FlightMapperImpl implements IFlightMapper {
                 subCaptain,
                 priceEconomy,
                 priceBusiness,
-                priceFirstClass
+                priceFirstClass,
+                scales
         );
     }
     public List<FlightResponseDTOImpl> mapFlightEntitiesToFlightResponseDTOs(List<FlightEntityImpl> flightEntities) {

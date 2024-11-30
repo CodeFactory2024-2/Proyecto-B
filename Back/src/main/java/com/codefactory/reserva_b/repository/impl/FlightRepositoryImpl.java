@@ -21,8 +21,7 @@ public class FlightRepositoryImpl implements IFlightRepository {
     @Transactional
     @Override
     public List<FlightEntityImpl> findAllFlights() {
-        List<FlightEntityImpl> flights = entityManager.createNativeQuery(sentences.selectAllFlightsSentence(), FlightEntityImpl.class)
-                .getResultList();
+        List<FlightEntityImpl> flights = entityManager.createNativeQuery(sentences.selectAllFlightsSentence(), FlightEntityImpl.class).getResultList();
         return flights;
     }
 }

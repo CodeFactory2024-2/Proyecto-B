@@ -4,16 +4,16 @@ import com.codefactory.reserva_b.dto.interfaces.ILuggageRequestDTO;
 
 public class LuggageRequestDTOImpl implements ILuggageRequestDTO {
     private final Long idPassenger;
-    private final String type;
+    private final Long idLuggageType;
     private final Float heightCm;
     private final Float weightKg;
     private final Float widthCm;
     private final Float extraFree;
 
-    public LuggageRequestDTOImpl(Long idPassenger, String type, Float heightCm,
+    public LuggageRequestDTOImpl(Long idPassenger, Long idLuggageType, Float heightCm,
                                  Float weightKg, Float widthCm, Float extraFree) {
         this.idPassenger = idPassenger;
-        this.type = type;
+        this.idLuggageType = idLuggageType;
         this.heightCm = heightCm;
         this.weightKg = weightKg;
         this.widthCm = widthCm;
@@ -26,8 +26,8 @@ public class LuggageRequestDTOImpl implements ILuggageRequestDTO {
     }
 
     @Override
-    public String getType() {
-        return type;
+    public Long getIdLuggageType() {
+        return idLuggageType;
     }
 
     @Override

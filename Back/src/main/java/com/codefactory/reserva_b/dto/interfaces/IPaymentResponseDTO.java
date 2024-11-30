@@ -1,5 +1,8 @@
 package com.codefactory.reserva_b.dto.interfaces;
 
+import com.codefactory.reserva_b.dto.impl.PaymentMethodResponseDTOImpl;
+import com.codefactory.reserva_b.dto.impl.PaymentStatusResponseDTOImpl;
+
 import java.time.LocalDateTime;
 
 public interface IPaymentResponseDTO {
@@ -7,5 +10,8 @@ public interface IPaymentResponseDTO {
     Long getIdBooking();
     Float getAmount();
     LocalDateTime getPaymentDate();
-    String getPaymentStatus();
+    Long getIdPaymentStatus();
+    PaymentStatusResponseDTOImpl getPaymentStatus();
+    Long getIdPaymentMethod();
+    PaymentMethodResponseDTOImpl getPaymentMethod();
 }

@@ -25,4 +25,5 @@ public interface ISqlSentences {
     String selectPassengerByIdBookingSentence();
     String updatePassengerIdSeatSentence();
     String updatePassengerInfoSentence();
+    String insertPassengerSpecialRequestSentence();
 }

@@ -27,8 +27,6 @@ public class LuggageRepositoryImpl implements ILuggageRepository {
                         PassengerEntityImpl.class)
                 .setParameter(1, luggage.getIdPassenger())
                 .getSingleResult();
-        System.out.println(luggage);
-        System.out.println(luggage.getIdPassenger());
         if (Boolean.FALSE.equals(passenger.getLuggageIncluded())) {
             entityManager.createNativeQuery(sentences.updateLuggageIncludedSentence())
                     .setParameter(1, true)
@@ -37,7 +35,7 @@ public class LuggageRepositoryImpl implements ILuggageRepository {
         }
         LuggageEntityImpl newLuggage = (LuggageEntityImpl) entityManager.createNativeQuery(sentences.insertLuggageSentence(), LuggageEntityImpl.class)
                 .setParameter(1, luggage.getIdPassenger())
-                .setParameter(2, luggage.getType())
+                .setParameter(2, luggage.getIdLuggageType())
                 .setParameter(3, luggage.getHeightCm())
                 .setParameter(4, luggage.getWeightKg())
                 .setParameter(5, luggage.getWidthCm())
@@ -50,7 +48,7 @@ public class LuggageRepositoryImpl implements ILuggageRepository {
     @Transactional
     public LuggageEntityImpl editLuggage(BigInteger idLuggage, LuggageRequestDTOImpl luggage) {
         LuggageEntityImpl updatedLuggage = (LuggageEntityImpl) entityManager.createNativeQuery(sentences.updateLuggageInfoSentence(), LuggageEntityImpl.class)
-                .setParameter(1, luggage.getType())
+                .setParameter(1, luggage.getIdLuggageType())
                 .setParameter(2, luggage.getHeightCm())
                 .setParameter(3, luggage.getWeightKg())
                 .setParameter(4, luggage.getWidthCm())

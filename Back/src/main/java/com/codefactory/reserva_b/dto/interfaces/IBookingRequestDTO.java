@@ -8,6 +8,6 @@ public interface IBookingRequestDTO {
     Long getIdFlight();
     Long getIdUser();
     String getBookingDate();
-    String getBookingStatus();
+    Long getIdBookingStatus();
     List<PassengerRequestDTOImpl> getPassengers();
 }

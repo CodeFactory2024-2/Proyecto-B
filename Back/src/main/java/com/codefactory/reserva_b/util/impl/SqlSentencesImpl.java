@@ -6,11 +6,11 @@ public class SqlSentencesImpl implements ISqlSentences {
     private static final String FIND_ALL_BOOKINGS = "SELECT * FROM booking";
     private static final String FIND_BOOKINGS_BY_ID_USER = "SELECT * FROM booking WHERE id_user = ?";
     private static final String FIND_BOOKING_BY_ID_BOOKING = "SELECT * FROM booking WHERE id_booking = ?";
-    private static final String INSERT_BOOKING = "INSERT INTO booking (id_flight, id_user, booking_date, booking_status) VALUES (?, ?, ?, ?) RETURNING id_booking";
-    private static final String INSERT_PASSENGER = "INSERT INTO passenger (id_seat, first_name, last_name, date_of_birth, document_id, passport_number, nationality, special_requests, luggage_included) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id_passenger";
+    private static final String INSERT_BOOKING = "INSERT INTO booking (id_flight, id_user, booking_date, id_booking_status) VALUES (?, ?, ?, ?) RETURNING id_booking";
+    private static final String INSERT_PASSENGER = "INSERT INTO passenger (id_seat, first_name, last_name, date_of_birth, document_id, passport_number, nationality, luggage_included, id_document_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id_passenger";
     private static final String INSERT_BOOKING_PASSENGER = "INSERT INTO booking_passenger (id_booking, id_passenger) VALUES (?, ?)";
     private static final String UPDATE_IS_RESERVED = "UPDATE seat SET is_reserved = ? WHERE id_seat = ?";
-    private static final String INSERT_LUGGAGE = "INSERT INTO luggage (id_passenger, type, height_cm, weight_kg, width_cm, extra_free) VALUES (?, ?, ?, ?, ?, ?) RETURNING *";
+    private static final String INSERT_LUGGAGE = "INSERT INTO luggage (id_passenger, id_luggage_type, height_cm, weight_kg, width_cm, extra_free) VALUES (?, ?, ?, ?, ?, ?) RETURNING *";
     private static final String FIND_ID_PASSENGERS_BY_ID_BOOKING = "SELECT id_passenger FROM booking_passenger WHERE id_booking = ?";
     private static final String FIND_ID_SEAT_BY_ID_PASSENGER = "SELECT id_seat FROM passenger WHERE id_passenger = ?";
     private static final String DELETE_LUGGAGE = "DELETE FROM luggage WHERE id_passenger = ?";
@@ -21,13 +21,13 @@ public class SqlSentencesImpl implements ISqlSentences {
     private static final String FIND_ALL_FLIGHTS = "SELECT * FROM flight";
     private static final String FIND_PASSENGER_BY_ID_PASSENGER = "SELECT * FROM passenger WHERE id_passenger = ?";
     private static final String UPDATE_LUGGAGE_INCLUDED = "UPDATE passenger SET luggage_included = ? WHERE id_passenger = ?";
-    private static final String UPDATE_LUGGAGE_INFO = "UPDATE luggage SET type = ?, height_cm = ?, weight_kg = ?, width_cm = ?, extra_free = ? WHERE id_luggage = ? RETURNING *";
+    private static final String UPDATE_LUGGAGE_INFO = "UPDATE luggage SET id_luggage_type = ?, height_cm = ?, weight_kg = ?, width_cm = ?, extra_free = ? WHERE id_luggage = ? RETURNING *";
     private static final String COUNT_LUGGAGE_BY_ID_PASSENGER = "SELECT COUNT(*) FROM luggage WHERE id_passenger = ?";
     private static final String FIND_AVAILABLE_SEATS = "SELECT * FROM seat WHERE id_flight = ? AND is_reserved = false";
     private static final String FIND_PASSENGERS_BY_ID_BOOKING = "SELECT id_passenger FROM booking_passenger WHERE id_booking = ?";
     private static final String UPDATE_ID_SEAT = "UPDATE passenger SET id_seat = ? WHERE id_passenger = ?";
-    private static final String UPDATE_PASSENGER_INFO = "UPDATE passenger SET first_name = ?, last_name = ?, date_of_birth = ?, document_id = ?, passport_number = ?, nationality = ?, special_requests = ? WHERE id_passenger = ?";
-
+    private static final String UPDATE_PASSENGER_INFO = "UPDATE passenger SET first_name = ?, last_name = ?, date_of_birth = ?, document_id = ?, passport_number = ?, nationality = ? WHERE id_passenger = ?";
+    private static final String INSERT_PASSENGER_SPECIAL_REQUEST = "INSERT INTO passenger_special_request (id_passenger, id_special_request) VALUES (?, ?)";
     @Override
     public String selectAllBookingsSentence() {
         return FIND_ALL_BOOKINGS;
@@ -147,4 +147,7 @@ public class SqlSentencesImpl implements ISqlSentences {
     public String updatePassengerInfoSentence() {
         return UPDATE_PASSENGER_INFO;
     }
+
+    @Override
+    public  String insertPassengerSpecialRequestSentence(){ return INSERT_PASSENGER_SPECIAL_REQUEST; }
 }

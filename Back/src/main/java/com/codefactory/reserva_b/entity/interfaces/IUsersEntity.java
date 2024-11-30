@@ -1,10 +1,12 @@
 package com.codefactory.reserva_b.entity.interfaces;
 
 import com.codefactory.reserva_b.entity.impl.DocumentTypeEntityImpl;
+import com.codefactory.reserva_b.entity.impl.RoleEntityImpl;
 import com.codefactory.reserva_b.entity.impl.UsersTypeEntityImpl;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.util.List;
 
 public interface IUsersEntity {
     // Getters
@@ -24,6 +26,7 @@ public interface IUsersEntity {
     UsersTypeEntityImpl getUsersType();
     BigInteger getIdDocumentType();
     DocumentTypeEntityImpl getDocumentType();
+    List<RoleEntityImpl> getRoles();
 
     // Setters
     void setIdUser(BigInteger idUser);
@@ -43,4 +46,5 @@ public interface IUsersEntity {
     void setIdDocumentType(BigInteger idDocumentType);
     void setDocumentType(DocumentTypeEntityImpl documentType);
     void setPasswordHash(String passwordHash);
+    void setRoles(List<RoleEntityImpl> roles);
 }

@@ -5,17 +5,19 @@ import com.codefactory.reserva_b.dto.interfaces.ILuggageResponseDTO;
 public class LuggageResponseDTOImpl implements ILuggageResponseDTO {
     private final Long idLuggage;
     private final Long idPassenger;
-    private final String type;
+    private final Long idLuggageType;
+    private final LuggageTypeResponseDTOImpl luggageType;
     private final Float heightCm;
     private final Float weightKg;
     private final Float widthCm;
     private final Float extraFree;
 
-    public LuggageResponseDTOImpl(Long idLuggage, Long idPassenger, String type, Float heightCm,
+    public LuggageResponseDTOImpl(Long idLuggage, Long idPassenger, Long idLuggageType, LuggageTypeResponseDTOImpl luggageType, Float heightCm,
                                   Float weightKg, Float widthCm, Float extraFree) {
         this.idLuggage = idLuggage;
         this.idPassenger = idPassenger;
-        this.type = type;
+        this.idLuggageType = idLuggageType;
+        this.luggageType = luggageType;
         this.heightCm = heightCm;
         this.weightKg = weightKg;
         this.widthCm = widthCm;
@@ -33,8 +35,13 @@ public class LuggageResponseDTOImpl implements ILuggageResponseDTO {
     }
 
     @Override
-    public String getType() {
-        return type;
+    public Long getIdLuggageType() {
+        return idLuggageType;
+    }
+
+    @Override
+    public LuggageTypeResponseDTOImpl getLuggageType() {
+        return luggageType;
     }
 
     @Override

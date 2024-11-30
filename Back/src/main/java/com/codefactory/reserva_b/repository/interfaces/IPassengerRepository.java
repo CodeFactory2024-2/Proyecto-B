@@ -15,4 +15,5 @@ public interface IPassengerRepository {
     BookingEntityImpl deletePassenger(BigInteger idPassenger, BigInteger idBooking);
     PassengerEntityImpl editPassengerSeat(BigInteger idPassenger, BigInteger idSeat);
     PassengerEntityImpl editPassengerInfo(BigInteger idPassenger, PassengerRequestDTOImpl passenger);
+    PassengerEntityImpl addSpecialRequestToPassenger(BigInteger idPassenger, BigInteger idSpecialRequest);
 }

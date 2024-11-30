@@ -49,4 +49,9 @@ public class PassengerController {
     public PassengerResponseDTOImpl editPassengerInfo(@Argument String idPassenger, @Argument PassengerRequestDTOImpl passenger) {
         return passengerService.editPassengerInfo(idPassenger, passenger);
     }
+
+    @MutationMapping()
+    public PassengerResponseDTOImpl addSpecialRequest(@Argument String idPassenger, @Argument String idSpecialRequest) {
+        return passengerService.addSpecialRequestToPassenger(idPassenger, idSpecialRequest);
+    }
 }

@@ -54,6 +54,10 @@ public class PassengerEntityImpl implements IPassengerEntity, IEntity, Serializa
     @OneToMany(mappedBy = "idPassenger", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<LuggageEntityImpl> luggage;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinTable(name = "passenger_special_request", joinColumns = @JoinColumn(name = "id_passenger"), inverseJoinColumns = @JoinColumn(name = "id_special_request"))
+    private List<SpecialRequestEntityImpl> specialRequests;
+
     public PassengerEntityImpl() {}
 
     public PassengerEntityImpl(BigInteger idSeat, String firstName, String lastName, LocalDate dateOfBirth, String documentId, String passportNumber, String nationality, Boolean luggageIncluded, BigInteger idDocumentType) {
@@ -196,6 +200,14 @@ public class PassengerEntityImpl implements IPassengerEntity, IEntity, Serializa
     @Override
     public void setLuggage(List<LuggageEntityImpl> luggage) {
         this.luggage = luggage;
+    }
+
+    public List<SpecialRequestEntityImpl> getSpecialRequests() {
+        return specialRequests;
+    }
+
+    public void setSpecialRequests(List<SpecialRequestEntityImpl> specialRequests) {
+        this.specialRequests = specialRequests;
     }
 
     @Override

@@ -68,8 +68,8 @@ public class PassengerRepositoryImpl implements IPassengerRepository {
                 .setParameter(5, passenger.getDocumentId())
                 .setParameter(6, passenger.getPassportNumber())
                 .setParameter(7, passenger.getNationality())
-                .setParameter(8, passenger.getSpecialRequests())
-                .setParameter(9, passenger.getLuggageIncluded())
+                .setParameter(8, passenger.getLuggageIncluded())
+                .setParameter(9, passenger.getIdDocumentType())
                 .getSingleResult();
         entityManager.createNativeQuery(sentences.insertBookingPassengerSentence())
                 .setParameter(1, idBooking)
@@ -84,7 +84,7 @@ public class PassengerRepositoryImpl implements IPassengerRepository {
                 entityManager.createNativeQuery(
                                 sentences.insertLuggageSentence())
                         .setParameter(1, idPassenger)
-                        .setParameter(2, luggage.getType())
+                        .setParameter(2, luggage.getIdLuggageType())
                         .setParameter(3, luggage.getHeightCm())
                         .setParameter(4, luggage.getWeightKg())
                         .setParameter(5, luggage.getWidthCm())
@@ -150,8 +150,17 @@ public class PassengerRepositoryImpl implements IPassengerRepository {
                 .setParameter(4, passenger.getDocumentId())
                 .setParameter(5, passenger.getPassportNumber())
                 .setParameter(6, passenger.getNationality())
-                .setParameter(7, passenger.getSpecialRequests())
-                .setParameter(8, idPassenger)
+                .setParameter(7, idPassenger)
+                .executeUpdate();
+        return findPassengerByIdPassenger(idPassenger);
+    }
+
+    @Transactional
+    @Override
+    public PassengerEntityImpl addSpecialRequestToPassenger(BigInteger idPassenger, BigInteger idSpecialRequest) {
+        entityManager.createNativeQuery(sentences.insertPassengerSpecialRequestSentence())
+                .setParameter(1, idPassenger)
+                .setParameter(2, idSpecialRequest)
                 .executeUpdate();
         return findPassengerByIdPassenger(idPassenger);
     }

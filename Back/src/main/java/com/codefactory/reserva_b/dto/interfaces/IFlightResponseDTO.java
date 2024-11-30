@@ -1,10 +1,9 @@
 package com.codefactory.reserva_b.dto.interfaces;
 
-import com.codefactory.reserva_b.dto.impl.CityResponseDTOImpl;
-import com.codefactory.reserva_b.dto.impl.PilotResponseDTOImpl;
-import com.codefactory.reserva_b.dto.impl.PlaneResponseDTOImpl;
+import com.codefactory.reserva_b.dto.impl.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface IFlightResponseDTO {
     Long getIdFlight();
@@ -17,7 +16,8 @@ public interface IFlightResponseDTO {
     CityResponseDTOImpl getArrivalCity();
     LocalDateTime getDepartureTime();
     LocalDateTime getArrivalTime();
-    String getStatus();
+    Long getIdFlightStatus();
+    FlightStatusResponseDTOImpl getFlightStatus();
     String getFlightDuration();
     Float getDistanceKm();
     Integer getSeats();
@@ -28,4 +28,5 @@ public interface IFlightResponseDTO {
     Float getPriceEconomy();
     Float getPriceBusiness();
     Float getPriceFirstClass();
+    List<ScaleResponseDTOImpl> getScales();
 }

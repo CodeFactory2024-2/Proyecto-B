@@ -9,15 +9,15 @@ public class BookingRequestDTOImpl implements IBookingRequestDTO {
     private final Long idFlight;
     private final Long idUser;
     private final String bookingDate;
-    private final String bookingStatus;
+    private final Long idBookingStatus;
     private final List<PassengerRequestDTOImpl> passengers;
 
     public BookingRequestDTOImpl(Long idFlight, Long idUser, String bookingDate,
-                                 String bookingStatus, List<PassengerRequestDTOImpl> passengers) {
+                                 Long idBookingStatus, List<PassengerRequestDTOImpl> passengers) {
         this.idFlight = idFlight;
         this.idUser = idUser;
         this.bookingDate = bookingDate;
-        this.bookingStatus = bookingStatus;
+        this.idBookingStatus = idBookingStatus;
         this.passengers = passengers;
     }
 
@@ -37,8 +37,8 @@ public class BookingRequestDTOImpl implements IBookingRequestDTO {
     }
 
     @Override
-    public String getBookingStatus() {
-        return bookingStatus;
+    public Long getIdBookingStatus() {
+        return idBookingStatus;
     }
 
     @Override

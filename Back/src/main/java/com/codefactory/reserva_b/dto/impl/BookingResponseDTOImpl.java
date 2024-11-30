@@ -12,13 +12,14 @@ public class BookingResponseDTOImpl implements IBookingResponseDTO {
     private final Long idUser;
     private final UsersResponseDTOImpl user;
     private final LocalDateTime bookingDate;
-    private final String bookingStatus;
+    private final Long idBookingStatus;
+    private final BookingStatusResponseDTOImpl bookingStatus;
     private final List<PassengerResponseDTOImpl> passengers;
     private final PaymentResponseDTOImpl payment;
 
     public BookingResponseDTOImpl(Long idBooking, Long idFlight, FlightResponseDTOImpl flight,
-                                  Long idUser, UsersResponseDTOImpl user, LocalDateTime bookingDate,
-                                  String bookingStatus, List<PassengerResponseDTOImpl> passengers,
+                                  Long idUser, UsersResponseDTOImpl user, LocalDateTime bookingDate, Long idBookingStatus,
+                                  BookingStatusResponseDTOImpl bookingStatus, List<PassengerResponseDTOImpl> passengers,
                                   PaymentResponseDTOImpl payment) {
         this.idBooking = idBooking;
         this.idFlight = idFlight;
@@ -26,6 +27,7 @@ public class BookingResponseDTOImpl implements IBookingResponseDTO {
         this.idUser = idUser;
         this.user = user;
         this.bookingDate = bookingDate;
+        this.idBookingStatus = idBookingStatus;
         this.bookingStatus = bookingStatus;
         this.passengers = passengers;
         this.payment = payment;
@@ -62,7 +64,10 @@ public class BookingResponseDTOImpl implements IBookingResponseDTO {
     }
 
     @Override
-    public String getBookingStatus() {
+    public Long getIdBookingStatus() {return idBookingStatus; }
+
+    @Override
+    public BookingStatusResponseDTOImpl getBookingStatus() {
         return bookingStatus;
     }
 

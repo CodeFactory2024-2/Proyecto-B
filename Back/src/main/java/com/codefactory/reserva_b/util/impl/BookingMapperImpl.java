@@ -1,9 +1,7 @@
 package com.codefactory.reserva_b.util.impl;
 
 import com.codefactory.reserva_b.dto.impl.*;
-import com.codefactory.reserva_b.dto.interfaces.*;
 import com.codefactory.reserva_b.entity.impl.BookingEntityImpl;
-import com.codefactory.reserva_b.entity.impl.PassengerEntityImpl;
 import com.codefactory.reserva_b.entity.interfaces.IBookingEntity;
 import com.codefactory.reserva_b.util.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +21,8 @@ public class BookingMapperImpl implements IBookingMapper {
     private IPassengerMapper passengerMapper;
     @Autowired
     private IPaymentMapper paymentMapper;
+    @Autowired
+    private IBookingStatusMapper bookingStatusMapper;
     @Override
     public BookingResponseDTOImpl mapBookingEntityToBookingResponseDTO(IBookingEntity bookingEntity) {
         if (bookingEntity == null) {
@@ -32,7 +32,10 @@ public class BookingMapperImpl implements IBookingMapper {
         Long idFlight = bookingEntity.getIdFlight().longValue();
         Long idUser = bookingEntity.getIdUser().longValue();
         LocalDateTime bookingDate = bookingEntity.getBookingDate();
-        String bookingStatus = bookingEntity.getBookingStatus();
+        Long idBookingStatus = bookingEntity.getIdBookingStatus().longValue();
+
+        BookingStatusResponseDTOImpl bookingStatus = bookingEntity.getBookingStatus() != null ?
+                bookingStatusMapper.mapBookingStatusEntityToBookingStatusResponseDTO(bookingEntity.getBookingStatus()) : null;
         FlightResponseDTOImpl flight = bookingEntity.getFlight() != null ?
                 flightMapper.mapFlightEntityToFlightResponseDTO(bookingEntity.getFlight()) : null;
 
@@ -52,6 +55,7 @@ public class BookingMapperImpl implements IBookingMapper {
                 idUser,
                 user,
                 bookingDate,
+                idBookingStatus,
                 bookingStatus,
                 passengers,
                 payment

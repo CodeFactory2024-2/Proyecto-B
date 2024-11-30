@@ -64,4 +64,10 @@ public class PassengerServiceImpl implements IPassengerService {
         PassengerEntityImpl editPassenger = passengerRepository.editPassengerInfo(new BigInteger(idPassenger), passenger);
         return passengerMapper.mapPassengerEntityToPassengerResponseDTO(editPassenger);
     }
+
+    @Override
+    public PassengerResponseDTOImpl addSpecialRequestToPassenger(String idPassenger, String idSpecialRequest) {
+        PassengerEntityImpl editPassenger = passengerRepository.addSpecialRequestToPassenger(new BigInteger(idPassenger), new BigInteger(idSpecialRequest));
+        return passengerMapper.mapPassengerEntityToPassengerResponseDTO(editPassenger);
+    }
 }
