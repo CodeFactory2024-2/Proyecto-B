@@ -5,9 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class ReservaBApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(ReservaBApplication.class, args);
 	}
-
 }

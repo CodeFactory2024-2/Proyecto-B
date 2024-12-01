@@ -1,24 +1,40 @@
-version: '3.9'
 services:
-  database:
+  java-database:
     container_name: reserva_b_booking_management_db
     image: postgres:latest
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     environment:
       POSTGRES_DB: "arqui_soft_code_factory"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "123456"
     ports:
       - "5432:5432"
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d
+    networks:
+      - reserva-network
 
   java-app:
     container_name: reserva_b_booking_management
     image: pee-reserva_b_booking_management:1.0.0
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     environment:
-      - DATABASE_URL=jdbc:postgresql://localhost:5432/arqui_soft_code_factory
+      - DATABASE_URL=jdbc:postgresql://reserva_b_booking_management_db:5432/arqui_soft_code_factory
       - DATABASE_USERNAME=postgres
       - DATABASE_PASSWORD=123456
+      - SPRING_JPA_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
     depends_on:
-      - database
+      - java-database
+    networks:
+      - reserva-network
+
+networks:
+  reserva-network:
