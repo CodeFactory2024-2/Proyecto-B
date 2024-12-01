@@ -14,6 +14,7 @@ public interface ISqlSentences {
     String deleteLuggageSentence();
     String deletePassengerSentence();
     String deleteBookingPassengerSentence();
+    String deleteSpecialRequestPassengerSentence();
     String deleteBookingSentence();
     String updateBookingStatusSentence();
     String selectAllFlightsSentence();

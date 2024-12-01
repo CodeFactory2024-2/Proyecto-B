@@ -54,7 +54,7 @@ public class BookingServiceImpl implements IBookingService {
 
     @Override
     public BookingResponseDTOImpl editBookingStatus(String bookingStatus, String idBooking) {
-        BookingEntityImpl booking = bookingRepository.editBookingStatus(bookingStatus, new BigInteger(idBooking));
+        BookingEntityImpl booking = bookingRepository.editBookingStatus(new BigInteger(bookingStatus), new BigInteger(idBooking));
         return bookingMapper.mapBookingEntityToBookingResponseDTO(booking);
     }
 }

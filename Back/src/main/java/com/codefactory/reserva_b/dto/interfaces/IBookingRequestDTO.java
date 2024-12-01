@@ -7,7 +7,6 @@ import java.util.List;
 public interface IBookingRequestDTO {
     Long getIdFlight();
     Long getIdUser();
-    String getBookingDate();
     Long getIdBookingStatus();
     List<PassengerRequestDTOImpl> getPassengers();
 }

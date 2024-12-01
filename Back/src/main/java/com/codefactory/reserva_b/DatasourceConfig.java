@@ -14,7 +14,7 @@ public class DatasourceConfig {
     public DataSource datasource() {
         return DataSourceBuilder.create()
                 .driverClassName("org.postgresql.Driver")
-                .url("jdbc:postgresql://reserva_b_booking_management_db:5432/arqui_soft_code_factory")
+                .url("jdbc:postgresql://localhost:5432/arqui_soft_code_factory")
                 .username("postgres")
                 .password("123456")
                 .build();

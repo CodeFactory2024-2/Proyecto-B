@@ -112,6 +112,9 @@ public class PassengerRepositoryImpl implements IPassengerRepository {
         entityManager.createNativeQuery(sentences.deleteLuggageSentence())
                 .setParameter(1, idPassenger)
                 .executeUpdate();
+        entityManager.createNativeQuery(sentences.deleteSpecialRequestPassengerSentence())
+                .setParameter(1, idPassenger)
+                .executeUpdate();
         entityManager.createNativeQuery(sentences.deletePassengerSentence())
                 .setParameter(1, idPassenger)
                 .executeUpdate();

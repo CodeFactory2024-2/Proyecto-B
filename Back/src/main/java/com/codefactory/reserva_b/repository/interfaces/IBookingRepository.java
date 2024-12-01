@@ -13,5 +13,5 @@ public interface IBookingRepository {
     BookingEntityImpl findBookingByIdBooking(BigInteger idBooking);
     BookingEntityImpl createBooking(BookingRequestDTOImpl booking);
     List<BookingEntityImpl> deleteBooking(BigInteger idBooking);
-    BookingEntityImpl editBookingStatus(String bookingStatus, BigInteger idBooking);
+    BookingEntityImpl editBookingStatus(BigInteger bookingStatus, BigInteger idBooking);
 }

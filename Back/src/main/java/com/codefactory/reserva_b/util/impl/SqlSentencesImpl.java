@@ -15,9 +15,10 @@ public class SqlSentencesImpl implements ISqlSentences {
     private static final String FIND_ID_SEAT_BY_ID_PASSENGER = "SELECT id_seat FROM passenger WHERE id_passenger = ?";
     private static final String DELETE_LUGGAGE = "DELETE FROM luggage WHERE id_passenger = ?";
     private static final String DELETE_PASSENGER = "DELETE FROM passenger WHERE id_passenger = ?";
-    private static final String DELETE_BOOKING_PASSENGER = "DELETE FROM booking_passenger WHERE id_booking = ? AND id_passenger = ?";
+    private static final String DELETE_BOOKING_PASSENGER = "DELETE FROM booking_passenger WHERE id_booking = ?";
+    private static final String DELETE_SPECIAL_REQUEST_PASSENGER = "DELETE FROM passenger_special_request WHERE id_passenger = ?";
     private static final String DELETE_BOOKING = "DELETE FROM booking WHERE id_booking = ?";
-    private static final String UPDATE_BOOKING_STATUS = "UPDATE booking SET booking_status = ? WHERE id_booking = ?";
+    private static final String UPDATE_BOOKING_STATUS = "UPDATE booking SET id_booking_status = ? WHERE id_booking = ?";
     private static final String FIND_ALL_FLIGHTS = "SELECT * FROM flight";
     private static final String FIND_PASSENGER_BY_ID_PASSENGER = "SELECT * FROM passenger WHERE id_passenger = ?";
     private static final String UPDATE_LUGGAGE_INCLUDED = "UPDATE passenger SET luggage_included = ? WHERE id_passenger = ?";
@@ -92,6 +93,9 @@ public class SqlSentencesImpl implements ISqlSentences {
     public String deleteBookingPassengerSentence() {
         return DELETE_BOOKING_PASSENGER;
     }
+
+    @Override
+    public String deleteSpecialRequestPassengerSentence() { return DELETE_SPECIAL_REQUEST_PASSENGER; }
 
     @Override
     public String deleteBookingSentence() {

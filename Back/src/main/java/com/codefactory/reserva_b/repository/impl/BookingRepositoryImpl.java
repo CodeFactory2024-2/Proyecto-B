@@ -112,6 +112,9 @@ public class BookingRepositoryImpl implements IBookingRepository  {
         List<Long> passengerIds = entityManager.createNativeQuery(sentences.selectIdPassengersByIdBookingSentence())
                 .setParameter(1, booking.getIdBooking())
                 .getResultList();
+        entityManager.createNativeQuery(sentences.deleteBookingPassengerSentence())
+                .setParameter(1, idBooking)
+                .executeUpdate();
         if (!passengerIds.isEmpty()) {
             for (Long passengerId : passengerIds) {
                 Long seatId = (Long) entityManager.createNativeQuery(sentences.selectIdSeatFromIdPassenger())
@@ -124,14 +127,14 @@ public class BookingRepositoryImpl implements IBookingRepository  {
                 entityManager.createNativeQuery(sentences.deleteLuggageSentence())
                         .setParameter(1, passengerId)
                         .executeUpdate();
+                entityManager.createNativeQuery(sentences.deleteSpecialRequestPassengerSentence())
+                        .setParameter(1, passengerId)
+                        .executeUpdate();
                 entityManager.createNativeQuery(sentences.deletePassengerSentence())
                         .setParameter(1, passengerId)
                         .executeUpdate();
             }
         }
-        entityManager.createNativeQuery(sentences.deleteBookingPassengerSentence())
-                .setParameter(1, idBooking)
-                .executeUpdate();
         entityManager.createNativeQuery(sentences.deleteBookingSentence())
                 .setParameter(1, idBooking)
                 .executeUpdate();
@@ -140,7 +143,7 @@ public class BookingRepositoryImpl implements IBookingRepository  {
 
     @Transactional
     @Override
-    public BookingEntityImpl editBookingStatus(String bookingStatus, BigInteger idBooking) {
+    public BookingEntityImpl editBookingStatus(BigInteger bookingStatus, BigInteger idBooking) {
         int updatedRows = entityManager.createNativeQuery(sentences.updateBookingStatusSentence())
                 .setParameter(1, bookingStatus)
                 .setParameter(2, idBooking)
